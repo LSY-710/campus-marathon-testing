@@ -1,0 +1,9 @@
+.env
+data/*.db
+data/*.db-*
+coverage/
+node_modules/
+test-results/
+playwright-report/
+*.log
+.DS_Store
