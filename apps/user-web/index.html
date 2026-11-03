@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#14221c" />
+    <title>Campus Run · 校园马拉松</title>
+    <link rel="stylesheet" href="/user/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#/home" aria-label="Campus Run 首页">
+        <span class="brand-mark">R</span>
+        <span class="brand-copy">
+          <strong>CAMPUS RUN</strong>
+          <small>校 园 跑 者 俱 乐 部</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="用户端导航">
+        <a href="#/home" data-nav="home">推荐</a>
+        <a href="#/events" data-nav="events">赛事</a>
+        <a href="#/profile" data-nav="profile">我的</a>
+      </nav>
+      <div class="header-actions">
+        <a class="admin-link" href="/admin/">管理端 ↗</a>
+        <button
+          id="login-open"
+          class="header-login"
+          type="button"
+          data-testid="user-login-open"
+        >
+          跑者登录
+        </button>
+      </div>
+    </header>
+
+    <main id="app" class="app-shell" data-testid="user-app">
+      <div class="loading-panel">正在加载 Campus Run...</div>
+    </main>
+
+    <footer class="site-footer">
+      <span>CAMPUS RUN CLUB · 2026</span>
+      <span>RUN WITH PURPOSE.</span>
+    </footer>
+
+    <dialog id="login-dialog" class="login-dialog">
+      <form id="login-form" data-testid="user-login-form">
+        <div class="dialog-head">
+          <div>
+            <span class="eyebrow">RUNNER ACCESS</span>
+            <h2>登录跑者档案</h2>
+          </div>
+          <button
+            class="dialog-close"
+            type="button"
+            data-action="close-login"
+            aria-label="关闭"
+          >
+            ×
+          </button>
+        </div>
+        <p class="dialog-copy">登录后可报名、提交评价并查看完赛证书。</p>
+        <label>
+          用户名
+          <input
+            name="username"
+            value="user"
+            autocomplete="username"
+            data-testid="login-username"
+            required
+          />
+        </label>
+        <label>
+          密码
+          <input
+            name="password"
+            type="password"
+            value="user1234"
+            autocomplete="current-password"
+            data-testid="login-password"
+            required
+          />
+        </label>
+        <p id="login-error" class="form-error" role="alert"></p>
+        <button class="button button-dark button-full" type="submit" data-testid="login-submit">
+          进入跑者档案
+        </button>
+        <small class="demo-account">演示账号：user / user1234</small>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/user/app.js"></script>
+  </body>
+</html>

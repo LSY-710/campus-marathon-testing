@@ -1,0 +1,145 @@
+.certificates-page {
+  padding-top: 24rpx;
+}
+
+.certificate-page-title {
+  margin: 17rpx 0 15rpx;
+  color: #14221c;
+  font-size: 56rpx;
+  font-weight: 900;
+  letter-spacing: -4rpx;
+  line-height: 1.08;
+}
+
+.certificate-page-caption {
+  margin-bottom: 30rpx;
+  color: #71766f;
+  font-size: 22rpx;
+  line-height: 1.7;
+}
+
+.certificate-card {
+  position: relative;
+  overflow: hidden;
+  margin-top: 24rpx;
+  margin-bottom: 28rpx;
+  padding: 29rpx;
+  border: 2rpx solid #14221c;
+  border-radius: 26rpx;
+  background:
+    linear-gradient(90deg, rgba(20, 34, 28, 0.045) 1rpx, transparent 1rpx),
+    linear-gradient(rgba(20, 34, 28, 0.045) 1rpx, transparent 1rpx),
+    #fbf8f1;
+  background-size: 42rpx 42rpx;
+}
+
+.certificate-top {
+  display: flex;
+  justify-content: space-between;
+  color: #e55335;
+  font-size: 14rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.certificate-status {
+  color: #14221c;
+  letter-spacing: 0;
+}
+
+.certificate-seal {
+  position: absolute;
+  right: 28rpx;
+  top: 68rpx;
+  width: 76rpx;
+  height: 76rpx;
+  display: grid;
+  place-items: center;
+  border: 3rpx solid #14221c;
+  border-radius: 50%;
+  color: #14221c;
+  background: #d9ed72;
+  font-size: 31rpx;
+  font-weight: 900;
+  transform: rotate(9deg);
+}
+
+.certificate-title {
+  max-width: 520rpx;
+  margin: 38rpx 0 33rpx;
+  color: #14221c;
+  font-size: 39rpx;
+  font-weight: 900;
+  letter-spacing: -2rpx;
+  line-height: 1.22;
+}
+
+.certificate-caption {
+  color: #8a8c84;
+  font-family: monospace;
+  font-size: 14rpx;
+  letter-spacing: 2rpx;
+}
+
+.certificate-name {
+  margin: 9rpx 0 5rpx;
+  color: #e55335;
+  font-size: 43rpx;
+  font-weight: 900;
+  letter-spacing: -2rpx;
+}
+
+.certificate-copy {
+  color: #697068;
+  font-size: 20rpx;
+}
+
+.certificate-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: 32rpx 0;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #d1c9bd;
+  border-bottom: 1rpx solid #d1c9bd;
+}
+
+.certificate-meta view {
+  min-width: 0;
+  padding: 0 12rpx;
+  border-right: 1rpx solid #d1c9bd;
+}
+
+.certificate-meta view:first-child {
+  padding-left: 0;
+}
+
+.certificate-meta view:last-child {
+  border-right: 0;
+}
+
+.certificate-meta text {
+  display: block;
+  font-size: 15rpx;
+}
+
+.certificate-meta text {
+  margin-bottom: 8rpx;
+  color: #8a8c84;
+}
+
+.certificate-meta-value {
+  overflow: hidden;
+  color: #14221c;
+  font-size: 19rpx;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.certificate-serial {
+  margin-bottom: 22rpx;
+  color: #777d75;
+  font-family: monospace;
+  font-size: 21rpx;
+}

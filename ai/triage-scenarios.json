@@ -1,0 +1,112 @@
+[
+  {
+    "category": "AUTHENTICATION",
+    "severity": "HIGH",
+    "rootCause": "访问令牌缺失、过期或被篡改",
+    "fixKeywords": ["重新登录", "令牌", "token"],
+    "logs": [
+      "GET /api/me/registrations -> 401 {code: UNAUTHORIZED, message: Authentication required}",
+      "MiniProgram request rejected: Authorization bearer token has expired",
+      "Playwright failure: expected 用户档案 but login dialog was shown after request returned 401"
+    ]
+  },
+  {
+    "category": "AUTHORIZATION",
+    "severity": "HIGH",
+    "rootCause": "当前用户角色无权访问管理员接口",
+    "fixKeywords": ["权限", "管理员", "角色"],
+    "logs": [
+      "GET /api/admin/dashboard -> 403 {code: FORBIDDEN, message: Insufficient permissions}",
+      "普通用户令牌请求赛事管理接口，响应角色校验失败",
+      "Expected admin table but received 403 error panel"
+    ]
+  },
+  {
+    "category": "VALIDATION",
+    "severity": "MEDIUM",
+    "rootCause": "请求体缺少必填字段或字段格式不合法",
+    "fixKeywords": ["必填", "校验", "validation"],
+    "logs": [
+      "POST /api/auth/login -> 400 {code: VALIDATION_ERROR, message: username is required}",
+      "API test failed because password field was an empty string",
+      "Request body date value is invalid and failed schema validation"
+    ]
+  },
+  {
+    "category": "BUSINESS_STATE",
+    "severity": "HIGH",
+    "rootCause": "业务状态不满足当前操作允许的前置条件",
+    "fixKeywords": ["状态", "报名", "缴费"],
+    "logs": [
+      "POST /api/registrations/reg-1/pay -> 409 INVALID_REGISTRATION_STATE",
+      "Duplicate event registration returned 409 ALREADY_REGISTERED",
+      "Result creation rejected because registration is not paid: PAID_REGISTRATION_REQUIRED"
+    ]
+  },
+  {
+    "category": "DATA_INTEGRITY",
+    "severity": "HIGH",
+    "rootCause": "唯一约束或关联数据导致数据库写入冲突",
+    "fixKeywords": ["唯一", "重复", "数据库"],
+    "logs": [
+      "SQLITE_CONSTRAINT: UNIQUE constraint failed: certificates.user_id, certificates.event_id",
+      "Foreign key constraint failed while deleting an event with related registrations",
+      "Unexpected duplicate user row detected by integration test"
+    ]
+  },
+  {
+    "category": "NETWORK",
+    "severity": "HIGH",
+    "rootCause": "客户端无法连接 API 或域名访问受限",
+    "fixKeywords": ["网络", "连接", "API 地址"],
+    "logs": [
+      "wx.request fail: connect ECONNREFUSED 127.0.0.1:3000",
+      "Playwright page error: Failed to fetch because API service is unavailable",
+      "DNS lookup failed while opening local API domain"
+    ]
+  },
+  {
+    "category": "DATABASE_LOCK",
+    "severity": "HIGH",
+    "rootCause": "SQLite 数据库被其他进程锁定或写入超时",
+    "fixKeywords": ["锁", "事务", "SQLite"],
+    "logs": [
+      "SqliteError: database is locked while writing registration",
+      "Transaction busy: SQLITE_BUSY on certificate issuance",
+      "Test worker A and worker B attempted concurrent writes"
+    ]
+  },
+  {
+    "category": "UI_LOCATOR",
+    "severity": "MEDIUM",
+    "rootCause": "页面元素未出现或自动化定位器不匹配",
+    "fixKeywords": ["定位器", "选择器", "页面"],
+    "logs": [
+      "locator.click: Timeout exceeded waiting for getByRole(button, name: 保存)",
+      "Element not found by selector #submit-button",
+      "Page selector .detail-hero did not match any element"
+    ]
+  },
+  {
+    "category": "TIMEOUT",
+    "severity": "MEDIUM",
+    "rootCause": "页面或接口在等待时间内未完成响应",
+    "fixKeywords": ["超时", "等待", "性能"],
+    "logs": [
+      "Test timeout of 45000ms exceeded while waiting for response",
+      "Request exceeded 30000ms duration without completion",
+      "MapReduce integration job timed out before output became available"
+    ]
+  },
+  {
+    "category": "FLAKY",
+    "severity": "LOW",
+    "rootCause": "测试受共享状态或异步时序影响，重试后结果发生变化",
+    "fixKeywords": ["隔离", "重试", "稳定"],
+    "logs": [
+      "Test failed on first attempt and passed on retry",
+      "Flaky test detected: expected 0 but received 1 only in parallel run",
+      "Intermittent assertion because shared database state leaked between tests"
+    ]
+  }
+]

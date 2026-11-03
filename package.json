@@ -1,0 +1,32 @@
+{
+  "name": "marathon-test-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "校园马拉松赛事服务平台与自动化测试体系",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "dev": "node --watch apps/api/src/server.mjs",
+    "start": "node apps/api/src/server.mjs",
+    "db:seed": "node scripts/seed.mjs",
+    "check": "node scripts/validate-static.mjs",
+    "test": "node --test tests/domain.test.mjs tests/api.test.mjs",
+    "test:watch": "node --test --watch tests/domain.test.mjs tests/api.test.mjs",
+    "test:coverage": "node --test --experimental-test-coverage tests/domain.test.mjs tests/api.test.mjs",
+    "test:e2e": "playwright test",
+    "test:miniapp": "node scripts/miniapp-smoke.mjs",
+    "test:ai": "node --test tests/ai.test.mjs",
+    "test:security": "node --test tests/security.test.mjs",
+    "test:concurrency": "node --test tests/concurrency.test.mjs",
+    "perf:baseline": "node scripts/performance-baseline.mjs",
+    "ai:generate": "node ai/generate-test-cases.mjs",
+    "ai:evaluate": "node ai/evaluate-triage.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "autocannon": "^8.0.0",
+    "miniprogram-automator": "^0.13.0"
+  }
+}

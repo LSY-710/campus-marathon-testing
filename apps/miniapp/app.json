@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/events/events",
+    "pages/detail/detail",
+    "pages/reviews/reviews",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/certificates/certificates"
+  ],
+  "window": {
+    "navigationBarTitleText": "CAMPUS RUN",
+    "navigationBarBackgroundColor": "#f4f0e8",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f4f0e8",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#8a8d86",
+    "selectedColor": "#e55335",
+    "backgroundColor": "#fbf8f1",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "推荐"
+      },
+      {
+        "pagePath": "pages/events/events",
+        "text": "报名"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

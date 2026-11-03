@@ -1,0 +1,116 @@
+<view class="ui-page profile-page">
+  <view wx:if="{{!user}}" class="login-prompt">
+    <text class="ui-kicker">RUNNER ACCESS</text>
+    <view class="profile-avatar guest">R</view>
+    <view class="prompt-title">
+      <view>登录你的</view>
+      <view>跑者档案</view>
+    </view>
+    <view class="profile-prompt-copy">
+      查看报名进度、赛事评价与完赛证书
+    </view>
+    <view class="profile-demo">演示账号 user / user1234</view>
+    <button class="ui-primary profile-login" bindtap="goLogin">立即登录</button>
+  </view>
+
+  <block wx:else>
+    <view class="runner-poster">
+      <view class="runner-grid"></view>
+      <view class="runner-top">
+        <text>RUNNER PASS</text>
+        <text>NO. 001</text>
+      </view>
+      <view class="runner-main">
+        <view class="profile-avatar">{{profileInitial}}</view>
+        <view class="runner-copy">
+          <view class="runner-label">CAMPUS RUN CLUB</view>
+          <view class="profile-name">{{user.nickname}}</view>
+          <view class="runner-handle">@{{user.username}}</view>
+        </view>
+      </view>
+      <view class="runner-stats">
+        <view>
+          <text class="runner-stat-number">{{registeredCount}}</text>
+          <text>ACTIVE RACES</text>
+        </view>
+        <view>
+          <text class="runner-stat-number">{{completedCount}}</text>
+          <text>FINISHED</text>
+        </view>
+        <view>
+          <text class="runner-stat-number">{{certificates.length}}</text>
+          <text>CERTIFICATES</text>
+        </view>
+      </view>
+      <button class="logout-link" bindtap="logout">退出</button>
+    </view>
+
+    <view class="profile-section-head">
+      <view>
+        <text class="ui-kicker">MY RACE BOARD</text>
+        <view class="profile-section-title">我的赛事</view>
+      </view>
+      <text class="profile-count">{{visibleRegistrations.length}}</text>
+    </view>
+
+    <view class="tab-row">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        data-key="{{item.key}}"
+        class="tab-item {{activeTab === item.key ? 'is-active' : ''}}"
+        bindtap="selectTab"
+      >
+        {{item.label}}
+      </view>
+    </view>
+
+    <block wx:if="{{visibleRegistrations.length}}">
+      <view
+        wx:for="{{visibleRegistrations}}"
+        wx:key="id"
+        class="ticket-card"
+        data-id="{{item.eventId}}"
+        bindtap="openEvent"
+      >
+        <view class="ticket-stripe"></view>
+        <view class="ticket-main">
+          <text class="ui-pill {{item.statusClass}}">{{item.statusLabel}}</text>
+          <view class="registration-title">{{item.eventTitle}}</view>
+          <view class="ticket-meta">{{item.dateText}} · {{item.nickname}}</view>
+        </view>
+        <view class="ticket-arrow">↗</view>
+      </view>
+    </block>
+    <view wx:else class="ui-empty">
+      暂无相关赛事
+    </view>
+
+    <view class="feature-list">
+      <view class="feature-item" bindtap="openCertificates">
+        <view class="feature-index">01</view>
+        <view class="feature-copy">
+          <text class="feature-title">我的荣誉</text>
+          <text>完赛证书与成绩记录</text>
+        </view>
+        <text class="feature-count">{{certificates.length}} 张 →</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-index">02</view>
+        <view class="feature-copy">
+          <text class="feature-title">常见问题</text>
+          <text>报名、参赛和证书说明</text>
+        </view>
+        <text class="feature-count">→</text>
+      </view>
+      <view class="feature-item">
+        <view class="feature-index">03</view>
+        <view class="feature-copy">
+          <text class="feature-title">联系客服</text>
+          <text>赛事问题与人工支持</text>
+        </view>
+        <text class="feature-count">→</text>
+      </view>
+    </view>
+  </block>
+</view>

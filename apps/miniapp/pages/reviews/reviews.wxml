@@ -1,0 +1,59 @@
+<view class="ui-page reviews-page">
+  <text class="ui-kicker">RUNNER NOTES / 文</text>
+  <view class="reviews-title">
+    <view>说出这场</view>
+    <view>比赛的故事</view>
+  </view>
+  <view class="reviews-caption">
+    你的真实感受会帮助下一位跑者做决定
+  </view>
+
+  <view class="review-panel">
+    <view class="review-panel-head">
+      <view class="panel-number">01</view>
+      <view>
+        <text class="panel-overline">WRITE A NOTE</text>
+        <view class="panel-title">发表评价</view>
+      </view>
+    </view>
+    <textarea
+      value="{{content}}"
+      maxlength="1000"
+      placeholder="路线、组织、补给或志愿者，写下最真实的一段体验..."
+      bindinput="onContentInput"
+    ></textarea>
+    <view class="review-tip">
+      <text>审核说明</text>
+      提交后经管理员审核通过才会公开显示
+    </view>
+    <button
+      class="ui-primary review-submit"
+      loading="{{submitting}}"
+      bindtap="submitReview"
+    >
+      提交评价
+    </button>
+  </view>
+
+  <view class="review-list-head">
+    <view>
+      <text class="ui-kicker">COMMUNITY VOICES</text>
+      <view class="list-title">全部评价</view>
+    </view>
+    <text class="review-total">{{reviews.length}} NOTES</text>
+  </view>
+  <view wx:if="{{!reviews.length}}" class="ui-empty">
+    还没有公开评价
+  </view>
+  <view wx:for="{{reviews}}" wx:key="id" class="review-item">
+    <view class="review-item-head">
+      <text class="review-sequence">{{item.sequence}}</text>
+      <view>
+        <view class="review-user">{{item.nickname}}</view>
+        <view class="review-date">{{item.dateText}}</view>
+      </view>
+      <text class="quote-mark">“</text>
+    </view>
+    <view class="review-content">{{item.content}}</view>
+  </view>
+</view>

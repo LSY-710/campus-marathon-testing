@@ -1,0 +1,80 @@
+<view class="ui-page events-page">
+  <view class="events-masthead">
+    <view>
+      <text class="ui-kicker">RACE CALENDAR / 02</text>
+      <view class="ui-section-title">
+        <view>选择你的</view>
+        <view>下一场奔跑</view>
+      </view>
+    </view>
+    <view class="event-counter">
+      <text>{{events.length}}</text>
+      <text class="event-counter-label">RACES</text>
+    </view>
+  </view>
+
+  <view class="events-search">
+    <view class="ui-search events-search-input">
+      <view class="ui-search-icon"></view>
+      <input
+        value="{{keyword}}"
+        placeholder="搜索赛事或地点"
+        confirm-type="search"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+      />
+    </view>
+    <button class="events-search-button" bindtap="onSearch">GO</button>
+  </view>
+
+  <scroll-view class="filter-scroll" scroll-x>
+    <view class="filter-row">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        data-status="{{item.key}}"
+        class="filter-item {{status === item.key ? 'is-active' : ''}}"
+        bindtap="selectStatus"
+      >
+        {{item.label}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{loading}}" class="ui-empty">正在加载赛事...</view>
+  <view wx:elif="{{!events.length}}" class="ui-empty">
+    没有找到相关赛事，换个关键词试试
+  </view>
+  <view wx:else class="race-grid">
+    <view
+      wx:for="{{events}}"
+      wx:key="id"
+      class="grid-race-card"
+      data-id="{{item.id}}"
+      bindtap="openEvent"
+    >
+      <view class="grid-cover">
+        <view class="grid-lines"></view>
+        <text class="grid-index">{{item.order}}</text>
+        <text class="ui-pill {{item.statusClass}} grid-status">
+          {{item.statusLabel}}
+        </text>
+        <view class="cover-date">
+          <text>{{item.monthText}}</text>
+          <text class="cover-date-number">{{item.dayText}}</text>
+        </view>
+      </view>
+      <view class="grid-body">
+        <view class="grid-title">{{item.title}}</view>
+        <view class="grid-location">{{item.location}}</view>
+        <view class="grid-foot">
+          <text>{{item.dateText}}</text>
+          <text>{{item.priceText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{!loading && events.length}}" class="end-note">
+    — END OF RACE LIST —
+  </view>
+</view>

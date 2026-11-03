@@ -1,0 +1,51 @@
+<view class="ui-page certificates-page">
+  <text class="ui-kicker">FINISH LINE ARCHIVE</text>
+  <view class="certificate-page-title">
+    <view>你的每一步</view>
+    <view>都有凭证。</view>
+  </view>
+  <view class="certificate-page-caption">
+    完赛证书是对训练、坚持与抵达的记录
+  </view>
+
+  <view wx:if="{{!certificates.length}}" class="ui-empty">
+    暂无已颁发的完赛证书
+  </view>
+  <view
+    wx:for="{{certificates}}"
+    wx:key="id"
+    class="certificate-card"
+  >
+    <view class="certificate-top">
+      <text class="certificate-kicker">CAMPUS RUN CLUB / FINISHER</text>
+      <text class="certificate-status">已颁发</text>
+    </view>
+    <view class="certificate-seal">R</view>
+    <view class="certificate-title">{{item.eventTitle}}</view>
+    <view class="certificate-caption">THIS CERTIFIES THAT</view>
+    <view class="certificate-name">{{item.nickname}}</view>
+    <view class="certificate-copy">已成功完成本次校园马拉松赛事</view>
+    <view class="certificate-meta">
+      <view>
+        <text>比赛日期</text>
+        <text class="certificate-meta-value">{{item.dateText}}</text>
+      </view>
+      <view>
+        <text>完赛时间</text>
+        <text class="certificate-meta-value">{{item.finishText}}</text>
+      </view>
+      <view>
+        <text>成绩分组</text>
+        <text class="certificate-meta-value">{{item.groupName}}</text>
+      </view>
+    </view>
+    <view class="certificate-serial">{{item.serialNo}}</view>
+    <button
+      class="ui-secondary"
+      data-id="{{item.id}}"
+      bindtap="downloadCertificate"
+    >
+      查看 / 下载证书
+    </button>
+  </view>
+</view>

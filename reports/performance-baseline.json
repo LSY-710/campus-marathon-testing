@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-11-03T10:03:04.146Z",
+  "scenario": "GET /api/events?pageSize=20",
+  "durationSeconds": 10,
+  "connections": 10,
+  "requests": {
+    "averagePerSecond": 691,
+    "total": 6910
+  },
+  "latencyMs": {
+    "average": 14.03,
+    "p95": 21,
+    "p99": 23,
+    "maximum": 62
+  },
+  "throughputBytesPerSecond": 2485043.21,
+  "errors": 0,
+  "timeouts": 0,
+  "non2xx": 0
+}

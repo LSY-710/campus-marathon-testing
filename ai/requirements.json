@@ -1,0 +1,122 @@
+[
+  {
+    "id": "REQ-EVENT-DISCOVERY",
+    "title": "赛事发现与状态排序",
+    "risk": "P1",
+    "endpoint": "GET /api/events",
+    "acceptanceCriteria": [
+      "仅返回已发布赛事",
+      "报名中赛事优先展示",
+      "关键词可匹配标题、地点或介绍",
+      "空搜索结果返回正常空列表"
+    ]
+  },
+  {
+    "id": "REQ-REGISTRATION-WINDOW",
+    "title": "报名时间窗口与名额",
+    "risk": "P0",
+    "endpoint": "POST /api/events/{eventId}/registrations",
+    "acceptanceCriteria": [
+      "报名窗口内允许创建报名",
+      "窗口开始和结束边界遵循服务器时间",
+      "窗口外或名额已满时返回业务冲突错误",
+      "同一用户不能重复报名同一赛事"
+    ]
+  },
+  {
+    "id": "REQ-PAYMENT-STATE",
+    "title": "缴费状态与所有权",
+    "risk": "P0",
+    "endpoint": "POST /api/registrations/{registrationId}/pay",
+    "acceptanceCriteria": [
+      "待缴费记录支付后变为已报名",
+      "只有报名本人可以支付",
+      "非待缴费状态不能重复支付",
+      "免费赛事创建后直接成为已报名"
+    ]
+  },
+  {
+    "id": "REQ-REVIEW-MODERATION",
+    "title": "评价审核与可见性",
+    "risk": "P0",
+    "endpoint": "POST /api/events/{eventId}/reviews",
+    "acceptanceCriteria": [
+      "已报名用户可以提交评价",
+      "新评价状态为待审核且不公开",
+      "管理员通过后评价公开显示",
+      "用户只能删除自己的评价"
+    ]
+  },
+  {
+    "id": "REQ-RESULT-CERTIFICATE",
+    "title": "成绩与证书状态约束",
+    "risk": "P0",
+    "endpoint": "POST /api/admin/results",
+    "acceptanceCriteria": [
+      "仅已缴费报名可以录入成绩",
+      "成绩录入后报名变为已完赛",
+      "未完赛报名不能生成证书",
+      "未颁发证书不能进入用户证书列表"
+    ]
+  },
+  {
+    "id": "REQ-RBAC",
+    "title": "管理员权限隔离",
+    "risk": "P0",
+    "endpoint": "GET /api/admin/dashboard",
+    "acceptanceCriteria": [
+      "未登录用户返回 401",
+      "普通用户访问管理接口返回 403",
+      "有效管理员令牌可以访问管理接口",
+      "客户端提交的角色字段不能覆盖服务器角色"
+    ]
+  },
+  {
+    "id": "REQ-INPUT-VALIDATION",
+    "title": "输入参数校验",
+    "risk": "P1",
+    "endpoint": "POST /api/auth/login",
+    "acceptanceCriteria": [
+      "缺少必填字段返回 400",
+      "超长或非法类型输入被拒绝",
+      "错误凭据返回统一的 401 错误",
+      "错误响应不泄露密码或内部堆栈"
+    ]
+  },
+  {
+    "id": "REQ-EVENT-DATE-ORDER",
+    "title": "赛事日期顺序",
+    "risk": "P1",
+    "endpoint": "POST /api/admin/events",
+    "acceptanceCriteria": [
+      "报名开始早于报名截止",
+      "报名截止早于比赛开始",
+      "比赛开始早于比赛结束",
+      "日期顺序错误时返回 400"
+    ]
+  },
+  {
+    "id": "REQ-WEB-ACCESS",
+    "title": "用户网页入口",
+    "risk": "P1",
+    "endpoint": "GET /user/",
+    "acceptanceCriteria": [
+      "根路径跳转到用户端",
+      "用户页面返回 HTML",
+      "未登录用户可以浏览公开赛事",
+      "需要身份的数据操作会打开登录入口"
+    ]
+  },
+  {
+    "id": "REQ-ADMIN-CRUD",
+    "title": "管理员赛事维护",
+    "risk": "P1",
+    "endpoint": "PATCH /api/admin/events/{eventId}",
+    "acceptanceCriteria": [
+      "管理员可以创建赛事",
+      "管理员可以修改赛事",
+      "管理员可以按名称搜索",
+      "删除赛事需要二次确认"
+    ]
+  }
+]

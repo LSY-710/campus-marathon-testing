@@ -1,0 +1,99 @@
+<view wx:if="{{loading}}" class="ui-page ui-empty">正在加载赛事...</view>
+<view wx:elif="{{event}}" class="detail-page">
+  <view class="detail-hero">
+    <view class="hero-grid"></view>
+    <view class="detail-hero-top">
+      <text>CAMPUS RACE FILE / {{event.monthText}}</text>
+      <text class="ui-pill {{event.statusClass}}">{{event.statusLabel}}</text>
+    </view>
+    <view class="detail-hero-title">{{event.title}}</view>
+    <view class="detail-date-lockup">
+      <text class="detail-date-label">RACE DATE</text>
+      <text class="detail-date-number">{{event.dayText}}</text>
+      <text class="detail-date-month">{{event.monthText}}</text>
+    </view>
+    <view class="detail-route">
+      <view class="detail-route-dot"></view>
+    </view>
+    <view class="detail-hero-foot">
+      <text>10 KM · CAMPUS LOOP</text>
+      <text>NO. {{event.registeredCount}}</text>
+    </view>
+  </view>
+
+  <view class="detail-sheet">
+    <text class="ui-kicker">EVENT INFORMATION</text>
+    <view class="detail-sheet-title">{{event.title}}</view>
+    <view class="detail-spec-grid">
+      <view class="detail-spec">
+        <text>DATE</text>
+        <text class="detail-spec-value">{{event.dateText}}</text>
+      </view>
+      <view class="detail-spec">
+        <text>ENTRY</text>
+        <text class="detail-spec-value">{{event.priceText}}</text>
+      </view>
+      <view class="detail-spec">
+        <text>LOCATION</text>
+        <text class="detail-spec-value">{{event.location}}</text>
+      </view>
+      <view class="detail-spec">
+        <text>ENTRIES LEFT</text>
+        <text class="detail-spec-value">{{event.remainingSlots}} / {{event.capacity}}</text>
+      </view>
+    </view>
+
+    <view class="detail-story">
+      <view class="story-number">01</view>
+      <view class="story-copy">
+        <text class="story-label">RACE STORY</text>
+        <view class="story-title">关于这场比赛</view>
+        <view class="description">{{event.description}}</view>
+      </view>
+    </view>
+
+    <view class="detail-note">
+      <text>ENTRY NOTE</text>
+      <view>
+        {{event.registrationOpen ? '报名通道开放中，请确认时间与费用后提交。' : event.registrationClosedReason}}
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-actions">
+    <button class="action-link" bindtap="toggleFavorite">
+      <text class="action-icon">{{favorite ? '★' : '☆'}}</text>
+      <text>{{favorite ? '已收藏' : '收藏'}}</text>
+    </button>
+    <button class="action-link" open-type="share">
+      <text class="action-icon">↗</text>
+      <text>分享</text>
+    </button>
+    <button class="action-link" bindtap="openReviews">
+      <text class="action-icon">◌</text>
+      <text>评价</text>
+    </button>
+    <button
+      wx:if="{{registration && registration.status === 'WAIT_PAYMENT'}}"
+      class="register-button ui-primary"
+      bindtap="pay"
+    >
+      立即缴费
+    </button>
+    <button
+      wx:elif="{{registration}}"
+      class="register-button is-registered ui-primary"
+      disabled
+    >
+      {{registration.status === 'COMPLETED' ? '已完赛' : '已报名'}}
+    </button>
+    <button
+      wx:else
+      class="register-button ui-primary"
+      disabled="{{!event.registrationOpen}}"
+      bindtap="register"
+    >
+      {{event.registrationOpen ? '立即报名' : event.registrationClosedReason}}
+    </button>
+  </view>
+</view>

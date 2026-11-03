@@ -1,0 +1,156 @@
+.reviews-page {
+  padding-top: 24rpx;
+}
+
+.reviews-title {
+  margin: 18rpx 0 16rpx;
+  color: #14221c;
+  font-size: 60rpx;
+  font-weight: 900;
+  letter-spacing: -4rpx;
+  line-height: 1.08;
+}
+
+.reviews-caption {
+  color: #737871;
+  font-size: 22rpx;
+  line-height: 1.7;
+}
+
+.review-panel {
+  margin-top: 30rpx;
+  padding: 28rpx;
+  border: 2rpx solid #14221c;
+  border-radius: 28rpx;
+  background: #fbf8f1;
+}
+
+.review-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 17rpx;
+  margin-bottom: 22rpx;
+}
+
+.panel-number {
+  color: #e55335;
+  font-size: 46rpx;
+  font-weight: 900;
+  letter-spacing: -3rpx;
+  line-height: 1;
+}
+
+.panel-overline {
+  color: #8a8c84;
+  font-size: 13rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.panel-title {
+  margin-top: 5rpx;
+  color: #14221c;
+  font-size: 28rpx;
+  font-weight: 850;
+}
+
+.review-panel textarea {
+  width: 100%;
+  min-height: 230rpx;
+  padding: 22rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #d5cdc1;
+  border-radius: 16rpx;
+  color: #14221c;
+  background: #f4f0e8;
+  font-size: 24rpx;
+  line-height: 1.75;
+}
+
+.review-tip {
+  margin: 17rpx 0 22rpx;
+  color: #777c75;
+  font-size: 19rpx;
+  line-height: 1.65;
+}
+
+.review-tip text {
+  margin-right: 10rpx;
+  color: #e55335;
+  font-weight: 800;
+}
+
+.review-submit {
+  min-height: 80rpx;
+}
+
+.review-list-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 48rpx 2rpx 20rpx;
+}
+
+.list-title {
+  margin-top: 9rpx;
+  color: #14221c;
+  font-size: 38rpx;
+  font-weight: 900;
+}
+
+.review-total {
+  color: #e55335;
+  font-size: 17rpx;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+}
+
+.review-item {
+  margin-bottom: 18rpx;
+  padding: 24rpx 25rpx 27rpx;
+  border-top: 3rpx solid #14221c;
+  border-bottom: 1rpx solid #cbc3b7;
+  background: #fbf8f1;
+}
+
+.review-item-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+  margin-bottom: 20rpx;
+}
+
+.review-sequence {
+  color: #e55335;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.review-user {
+  color: #14221c;
+  font-size: 22rpx;
+  font-weight: 800;
+}
+
+.review-content {
+  color: #3f4942;
+  font-size: 26rpx;
+  line-height: 1.85;
+}
+
+.review-date {
+  margin-top: 4rpx;
+  color: #9a9b92;
+  font-size: 16rpx;
+}
+
+.quote-mark {
+  position: absolute;
+  right: 0;
+  top: -20rpx;
+  color: #ded6ca;
+  font-family: Georgia, serif;
+  font-size: 84rpx;
+  line-height: 1;
+}

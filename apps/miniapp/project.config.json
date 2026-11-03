@@ -1,0 +1,18 @@
+{
+  "description": "校园马拉松赛事服务平台",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "minifyWXML": true
+  },
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "campus-marathon",
+  "miniprogramRoot": "./"
+}

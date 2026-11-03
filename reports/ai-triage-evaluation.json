@@ -1,0 +1,1015 @@
+{
+  "generatedAt": "2026-11-03T07:46:16.216Z",
+  "mode": "offline-baseline",
+  "sampleCount": 50,
+  "dataSource": "synthetic labeled CI failures",
+  "metrics": {
+    "jsonValidRate": 1,
+    "categoryAccuracy": 1,
+    "severityAccuracy": 1,
+    "fixHitRate": 1,
+    "averageLatencyMs": 0.06
+  },
+  "results": [
+    {
+      "caseId": "TRIAGE-01-1",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.48,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "访问令牌缺失、过期或被篡改",
+        "evidence": [
+          "GET /api/me/registrations -> 401 {code: UNAUTHORIZED, message: Authentication required}"
+        ],
+        "suggestedFix": "重新登录以获取有效令牌，并检查请求是否携带 Authorization 头。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-01-2",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.16,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "访问令牌缺失、过期或被篡改",
+        "evidence": [
+          "MiniProgram request rejected: Authorization bearer token has expired"
+        ],
+        "suggestedFix": "重新登录以获取有效令牌，并检查请求是否携带 Authorization 头。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-01-3",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.1,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "访问令牌缺失、过期或被篡改",
+        "evidence": [
+          "Playwright failure: expected 用户档案 but login dialog was shown after request returned 401"
+        ],
+        "suggestedFix": "重新登录以获取有效令牌，并检查请求是否携带 Authorization 头。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-01-4",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "访问令牌缺失、过期或被篡改",
+        "evidence": [
+          "GET /api/me/registrations -> 401 {code: UNAUTHORIZED, message: Authentication required}"
+        ],
+        "suggestedFix": "重新登录以获取有效令牌，并检查请求是否携带 Authorization 头。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-01-5",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "访问令牌缺失、过期或被篡改",
+        "evidence": [
+          "MiniProgram request rejected: Authorization bearer token has expired"
+        ],
+        "suggestedFix": "重新登录以获取有效令牌，并检查请求是否携带 Authorization 头。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-1",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "当前用户角色无权访问目标接口",
+        "evidence": [
+          "GET /api/admin/dashboard -> 403 {code: FORBIDDEN, message: Insufficient permissions}"
+        ],
+        "suggestedFix": "检查账号角色和管理员权限配置，确认没有使用普通用户令牌。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-2",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "当前用户角色无权访问目标接口",
+        "evidence": [
+          "普通用户令牌请求赛事管理接口，响应角色校验失败"
+        ],
+        "suggestedFix": "检查账号角色和管理员权限配置，确认没有使用普通用户令牌。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-3",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "当前用户角色无权访问目标接口",
+        "evidence": [
+          "Expected admin table but received 403 error panel"
+        ],
+        "suggestedFix": "检查账号角色和管理员权限配置，确认没有使用普通用户令牌。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-4",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.07,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "当前用户角色无权访问目标接口",
+        "evidence": [
+          "GET /api/admin/dashboard -> 403 {code: FORBIDDEN, message: Insufficient permissions}"
+        ],
+        "suggestedFix": "检查账号角色和管理员权限配置，确认没有使用普通用户令牌。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-5",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.12,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "当前用户角色无权访问目标接口",
+        "evidence": [
+          "普通用户令牌请求赛事管理接口，响应角色校验失败"
+        ],
+        "suggestedFix": "检查账号角色和管理员权限配置，确认没有使用普通用户令牌。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-1",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.62,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "请求数据不满足字段校验规则",
+        "evidence": [
+          "POST /api/auth/login -> 400 {code: VALIDATION_ERROR, message: username is required}"
+        ],
+        "suggestedFix": "检查必填字段、类型和格式，在客户端与接口层同时补充校验。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-2",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.32,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "请求数据不满足字段校验规则",
+        "evidence": [
+          "API test failed because password field was an empty string"
+        ],
+        "suggestedFix": "检查必填字段、类型和格式，在客户端与接口层同时补充校验。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-3",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "请求数据不满足字段校验规则",
+        "evidence": [
+          "Request body date value is invalid and failed schema validation"
+        ],
+        "suggestedFix": "检查必填字段、类型和格式，在客户端与接口层同时补充校验。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-4",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "请求数据不满足字段校验规则",
+        "evidence": [
+          "POST /api/auth/login -> 400 {code: VALIDATION_ERROR, message: username is required}"
+        ],
+        "suggestedFix": "检查必填字段、类型和格式，在客户端与接口层同时补充校验。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-5",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "请求数据不满足字段校验规则",
+        "evidence": [
+          "API test failed because password field was an empty string"
+        ],
+        "suggestedFix": "检查必填字段、类型和格式，在客户端与接口层同时补充校验。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-1",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "业务状态不满足当前操作允许的前置条件",
+        "evidence": [
+          "POST /api/registrations/reg-1/pay -> 409 INVALID_REGISTRATION_STATE"
+        ],
+        "suggestedFix": "检查报名、缴费和审核状态，按状态机要求修正前置数据。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-2",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "业务状态不满足当前操作允许的前置条件",
+        "evidence": [
+          "Duplicate event registration returned 409 ALREADY_REGISTERED"
+        ],
+        "suggestedFix": "检查报名、缴费和审核状态，按状态机要求修正前置数据。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-3",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.04,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "业务状态不满足当前操作允许的前置条件",
+        "evidence": [
+          "Result creation rejected because registration is not paid: PAID_REGISTRATION_REQUIRED"
+        ],
+        "suggestedFix": "检查报名、缴费和审核状态，按状态机要求修正前置数据。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-4",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "业务状态不满足当前操作允许的前置条件",
+        "evidence": [
+          "POST /api/registrations/reg-1/pay -> 409 INVALID_REGISTRATION_STATE"
+        ],
+        "suggestedFix": "检查报名、缴费和审核状态，按状态机要求修正前置数据。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-5",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "业务状态不满足当前操作允许的前置条件",
+        "evidence": [
+          "Duplicate event registration returned 409 ALREADY_REGISTERED"
+        ],
+        "suggestedFix": "检查报名、缴费和审核状态，按状态机要求修正前置数据。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-1",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "数据库唯一约束或关联关系阻止写入",
+        "evidence": [
+          "SQLITE_CONSTRAINT: UNIQUE constraint failed: certificates.user_id, certificates.event_id"
+        ],
+        "suggestedFix": "检查重复数据和关联记录，使用幂等写入或在事务内完成更新。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-2",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "数据库唯一约束或关联关系阻止写入",
+        "evidence": [
+          "Foreign key constraint failed while deleting an event with related registrations"
+        ],
+        "suggestedFix": "检查重复数据和关联记录，使用幂等写入或在事务内完成更新。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-3",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "数据库唯一约束或关联关系阻止写入",
+        "evidence": [
+          "Unexpected duplicate user row detected by integration test"
+        ],
+        "suggestedFix": "检查重复数据和关联记录，使用幂等写入或在事务内完成更新。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-4",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "数据库唯一约束或关联关系阻止写入",
+        "evidence": [
+          "SQLITE_CONSTRAINT: UNIQUE constraint failed: certificates.user_id, certificates.event_id"
+        ],
+        "suggestedFix": "检查重复数据和关联记录，使用幂等写入或在事务内完成更新。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-5",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "数据库唯一约束或关联关系阻止写入",
+        "evidence": [
+          "Foreign key constraint failed while deleting an event with related registrations"
+        ],
+        "suggestedFix": "检查重复数据和关联记录，使用幂等写入或在事务内完成更新。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-1",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "客户端无法连接 API 服务或网络地址错误",
+        "evidence": [
+          "wx.request fail: connect ECONNREFUSED 127.0.0.1:3000"
+        ],
+        "suggestedFix": "确认 API 地址、服务进程和网络连通性，检查域名可达性。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-2",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "客户端无法连接 API 服务或网络地址错误",
+        "evidence": [
+          "Playwright page error: Failed to fetch because API service is unavailable"
+        ],
+        "suggestedFix": "确认 API 地址、服务进程和网络连通性，检查域名可达性。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-3",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.03,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "客户端无法连接 API 服务或网络地址错误",
+        "evidence": [
+          "DNS lookup failed while opening local API domain"
+        ],
+        "suggestedFix": "确认 API 地址、服务进程和网络连通性，检查域名可达性。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-4",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.04,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "客户端无法连接 API 服务或网络地址错误",
+        "evidence": [
+          "wx.request fail: connect ECONNREFUSED 127.0.0.1:3000"
+        ],
+        "suggestedFix": "确认 API 地址、服务进程和网络连通性，检查域名可达性。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-5",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.02,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "客户端无法连接 API 服务或网络地址错误",
+        "evidence": [
+          "Playwright page error: Failed to fetch because API service is unavailable"
+        ],
+        "suggestedFix": "确认 API 地址、服务进程和网络连通性，检查域名可达性。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-1",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.03,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "数据库被并发写入锁定",
+        "evidence": [
+          "SqliteError: database is locked while writing registration"
+        ],
+        "suggestedFix": "缩短事务范围，串行化冲突写入，并为 SQLite 设置合理的 busy timeout。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-2",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "数据库被并发写入锁定",
+        "evidence": [
+          "Transaction busy: SQLITE_BUSY on certificate issuance"
+        ],
+        "suggestedFix": "缩短事务范围，串行化冲突写入，并为 SQLite 设置合理的 busy timeout。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-3",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "数据库被并发写入锁定",
+        "evidence": [
+          "Test worker A and worker B attempted concurrent writes"
+        ],
+        "suggestedFix": "缩短事务范围，串行化冲突写入，并为 SQLite 设置合理的 busy timeout。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-4",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.03,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "数据库被并发写入锁定",
+        "evidence": [
+          "SqliteError: database is locked while writing registration"
+        ],
+        "suggestedFix": "缩短事务范围，串行化冲突写入，并为 SQLite 设置合理的 busy timeout。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-5",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "数据库被并发写入锁定",
+        "evidence": [
+          "Transaction busy: SQLITE_BUSY on certificate issuance"
+        ],
+        "suggestedFix": "缩短事务范围，串行化冲突写入，并为 SQLite 设置合理的 busy timeout。",
+        "severity": "HIGH",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-1",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.36,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "自动化定位器未匹配到目标页面元素",
+        "evidence": [
+          "locator.click: Timeout exceeded waiting for getByRole(button, name: 保存)"
+        ],
+        "suggestedFix": "检查页面是否渲染成功，优先使用稳定的 role、label 或 data-testid 定位器。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-2",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "自动化定位器未匹配到目标页面元素",
+        "evidence": [
+          "Element not found by selector #submit-button"
+        ],
+        "suggestedFix": "检查页面是否渲染成功，优先使用稳定的 role、label 或 data-testid 定位器。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-3",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "自动化定位器未匹配到目标页面元素",
+        "evidence": [
+          "Page selector .detail-hero did not match any element"
+        ],
+        "suggestedFix": "检查页面是否渲染成功，优先使用稳定的 role、label 或 data-testid 定位器。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-4",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "自动化定位器未匹配到目标页面元素",
+        "evidence": [
+          "locator.click: Timeout exceeded waiting for getByRole(button, name: 保存)"
+        ],
+        "suggestedFix": "检查页面是否渲染成功，优先使用稳定的 role、label 或 data-testid 定位器。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-5",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "自动化定位器未匹配到目标页面元素",
+        "evidence": [
+          "Element not found by selector #submit-button"
+        ],
+        "suggestedFix": "检查页面是否渲染成功，优先使用稳定的 role、label 或 data-testid 定位器。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-1",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "接口或页面在等待时间内未完成响应",
+        "evidence": [
+          "Test timeout of 45000ms exceeded while waiting for response"
+        ],
+        "suggestedFix": "定位慢查询或慢接口，优化执行时间并设置合理的等待阈值。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-2",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "接口或页面在等待时间内未完成响应",
+        "evidence": [
+          "Request exceeded 30000ms duration without completion"
+        ],
+        "suggestedFix": "定位慢查询或慢接口，优化执行时间并设置合理的等待阈值。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-3",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "接口或页面在等待时间内未完成响应",
+        "evidence": [
+          "MapReduce integration job timed out before output became available"
+        ],
+        "suggestedFix": "定位慢查询或慢接口，优化执行时间并设置合理的等待阈值。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-4",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "接口或页面在等待时间内未完成响应",
+        "evidence": [
+          "Test timeout of 45000ms exceeded while waiting for response"
+        ],
+        "suggestedFix": "定位慢查询或慢接口，优化执行时间并设置合理的等待阈值。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-5",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "接口或页面在等待时间内未完成响应",
+        "evidence": [
+          "Request exceeded 30000ms duration without completion"
+        ],
+        "suggestedFix": "定位慢查询或慢接口，优化执行时间并设置合理的等待阈值。",
+        "severity": "MEDIUM",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-1",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "测试受共享状态或异步时序影响而不稳定",
+        "evidence": [
+          "Test failed on first attempt and passed on retry"
+        ],
+        "suggestedFix": "隔离测试数据，移除执行顺序依赖，并检查异步等待条件。",
+        "severity": "LOW",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-2",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "测试受共享状态或异步时序影响而不稳定",
+        "evidence": [
+          "Flaky test detected: expected 0 but received 1 only in parallel run"
+        ],
+        "suggestedFix": "隔离测试数据，移除执行顺序依赖，并检查异步等待条件。",
+        "severity": "LOW",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-3",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "测试受共享状态或异步时序影响而不稳定",
+        "evidence": [
+          "Intermittent assertion because shared database state leaked between tests"
+        ],
+        "suggestedFix": "隔离测试数据，移除执行顺序依赖，并检查异步等待条件。",
+        "severity": "LOW",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-4",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "测试受共享状态或异步时序影响而不稳定",
+        "evidence": [
+          "Test failed on first attempt and passed on retry"
+        ],
+        "suggestedFix": "隔离测试数据，移除执行顺序依赖，并检查异步等待条件。",
+        "severity": "LOW",
+        "confidence": 0.82
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-5",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 0.01,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "测试受共享状态或异步时序影响而不稳定",
+        "evidence": [
+          "Flaky test detected: expected 0 but received 1 only in parallel run"
+        ],
+        "suggestedFix": "隔离测试数据，移除执行顺序依赖，并检查异步等待条件。",
+        "severity": "LOW",
+        "confidence": 0.82
+      }
+    }
+  ]
+}

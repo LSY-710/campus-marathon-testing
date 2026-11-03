@@ -1,0 +1,43 @@
+<view class="login-page">
+  <view class="login-grid"></view>
+  <view class="login-top">
+    <text class="ui-kicker">CAMPUS RUN CLUB</text>
+    <view class="login-mark">R</view>
+  </view>
+  <view class="login-title">
+    <view>RUNNER</view>
+    <view>ACCESS<text class="title-dot">.</text></view>
+  </view>
+  <view class="login-subtitle">登录你的跑者档案，管理报名与完赛记录。</view>
+  <view class="login-form">
+    <view class="form-caption">
+      <text>MEMBER SIGN IN</text>
+      <text>01 / 02</text>
+    </view>
+    <view class="field">
+      <text>用户名</text>
+      <input
+        value="{{username}}"
+        placeholder="请输入用户名"
+        bindinput="onUsernameInput"
+      />
+    </view>
+    <view class="field">
+      <text>密码</text>
+      <input
+        value="{{password}}"
+        password
+        placeholder="请输入密码"
+        bindinput="onPasswordInput"
+      />
+    </view>
+    <button
+      class="ui-primary login-button"
+      loading="{{submitting}}"
+      bindtap="submit"
+    >
+      登录
+    </button>
+    <view class="demo-text">演示账号：user / user1234</view>
+  </view>
+</view>

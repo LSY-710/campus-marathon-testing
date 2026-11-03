@@ -1,0 +1,125 @@
+.login-page {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 42rpx 30rpx 50rpx;
+  box-sizing: border-box;
+  color: #14221c;
+  background: #f4f0e8;
+}
+
+.login-grid {
+  position: absolute;
+  top: -180rpx;
+  right: -290rpx;
+  width: 760rpx;
+  height: 760rpx;
+  border: 2rpx solid rgba(20, 34, 28, 0.08);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, rgba(20, 34, 28, 0.045) 1rpx, transparent 1rpx),
+    linear-gradient(rgba(20, 34, 28, 0.045) 1rpx, transparent 1rpx);
+  background-size: 64rpx 64rpx;
+  transform: rotate(19deg);
+}
+
+.login-top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-mark {
+  width: 66rpx;
+  height: 66rpx;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #14221c;
+  background: #d9ed72;
+  font-size: 25rpx;
+  font-weight: 900;
+}
+
+.login-title {
+  position: relative;
+  z-index: 2;
+  margin: 82rpx 0 20rpx;
+  color: #14221c;
+  font-size: 78rpx;
+  font-weight: 900;
+  letter-spacing: -6rpx;
+  line-height: 0.92;
+}
+
+.title-dot {
+  color: #e55335;
+}
+
+.login-subtitle {
+  position: relative;
+  z-index: 2;
+  max-width: 500rpx;
+  color: #6d736c;
+  font-size: 23rpx;
+  line-height: 1.7;
+}
+
+.login-form {
+  position: relative;
+  z-index: 2;
+  margin-top: 45rpx;
+  padding: 26rpx;
+  box-sizing: border-box;
+  border: 2rpx solid #14221c;
+  border-radius: 28rpx;
+  background: #fbf8f1;
+}
+
+.form-caption {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 27rpx;
+  padding-bottom: 15rpx;
+  border-bottom: 1rpx solid #d8d1c5;
+  color: #8a8c84;
+  font-size: 14rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.field {
+  margin-bottom: 23rpx;
+}
+
+.field text {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #14221c;
+  font-size: 20rpx;
+  font-weight: 800;
+  letter-spacing: 1rpx;
+}
+
+.field input {
+  height: 80rpx;
+  padding: 0 18rpx;
+  border: 1rpx solid #cbc3b7;
+  border-radius: 13rpx;
+  color: #14221c;
+  background: #f4f0e8;
+  font-size: 25rpx;
+}
+
+.login-button {
+  min-height: 82rpx;
+}
+
+.demo-text {
+  margin-top: 17rpx;
+  color: #8a8d86;
+  text-align: center;
+  font-size: 18rpx;
+}

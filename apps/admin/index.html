@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#123e66" />
+    <title>马拉松赛事管理系统</title>
+    <link rel="stylesheet" href="/admin/styles.css" />
+  </head>
+  <body>
+    <section id="login-view" class="login-shell">
+      <div class="login-visual">
+        <p class="eyebrow">CAMPUS MARATHON</p>
+        <h1>让每一场奔跑<br />都有迹可循</h1>
+        <p class="login-visual-copy">
+          管理赛事、报名、成绩与完赛证书，并通过完整测试体系守住每一次状态流转。
+        </p>
+        <div class="route-line" aria-hidden="true"></div>
+      </div>
+      <div class="login-panel">
+        <form id="login-form" class="login-card">
+          <div class="brand-mark">M</div>
+          <p class="eyebrow">管理员入口</p>
+          <h2>马拉松管理系统</h2>
+          <p class="muted">请输入用户名和密码登录</p>
+          <label>
+            用户名
+            <input name="username" value="admin" autocomplete="username" required />
+          </label>
+          <label>
+            密码
+            <input
+              name="password"
+              type="password"
+              value="admin123"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <p id="login-error" class="form-error" role="alert"></p>
+          <button class="button button-primary button-full" type="submit">
+            登录系统
+          </button>
+          <p class="demo-hint">演示账号：admin / admin123</p>
+        </form>
+      </div>
+    </section>
+
+    <div id="app-view" class="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <span class="brand-mark brand-mark-small">M</span>
+          <div>
+            <strong>马拉松管理</strong>
+            <small>运营控制台</small>
+          </div>
+        </div>
+        <nav id="main-nav" class="main-nav" aria-label="后台功能">
+          <button class="nav-item is-active" data-page="dashboard">
+            <span>概</span>工作台
+          </button>
+          <button class="nav-item" data-page="events"><span>赛</span>赛事管理</button>
+          <button class="nav-item" data-page="registrations">
+            <span>报</span>报名管理
+          </button>
+          <button class="nav-item" data-page="results"><span>绩</span>成绩管理</button>
+          <button class="nav-item" data-page="certificates">
+            <span>证</span>证书管理
+          </button>
+          <button class="nav-item" data-page="schools"><span>校</span>学校管理</button>
+          <button class="nav-item" data-page="reviews"><span>评</span>评价管理</button>
+        </nav>
+        <div class="sidebar-foot">
+          <div class="admin-avatar">管</div>
+          <div>
+            <strong id="admin-name">赛事管理员</strong>
+            <small>系统管理员</small>
+          </div>
+          <button id="logout-button" class="icon-button" title="退出登录">↪</button>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">MARATHON OPERATIONS</p>
+            <h1 id="page-title">工作台</h1>
+          </div>
+          <div class="topbar-meta">
+            <span class="system-dot"></span>
+            服务运行中
+          </div>
+        </header>
+        <main id="page-content" class="page-content" tabindex="-1"></main>
+      </section>
+    </div>
+
+    <dialog id="resource-dialog" class="resource-dialog">
+      <form id="resource-form">
+        <header class="dialog-header">
+          <div>
+            <p class="eyebrow">EDIT RECORD</p>
+            <h2 id="dialog-title">编辑记录</h2>
+          </div>
+          <button
+            type="button"
+            class="icon-button"
+            data-action="close-dialog"
+            aria-label="关闭"
+          >
+            ×
+          </button>
+        </header>
+        <div id="dialog-body" class="dialog-body"></div>
+        <footer class="dialog-footer">
+          <button type="button" class="button button-ghost" data-action="close-dialog">
+            取消
+          </button>
+          <button type="submit" class="button button-primary">保存</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/admin/app.js"></script>
+  </body>
+</html>
