@@ -1,4 +1,5 @@
 import { performance } from "node:perf_hooks";
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -16,30 +17,72 @@ const limitIndex = process.argv.indexOf("--limit");
 const limit =
   limitIndex >= 0 ? Number(process.argv[limitIndex + 1] || 10) : Infinity;
 const offline = args.has("--offline") || !process.env.DEEPSEEK_API_KEY;
+const splitIndex = process.argv.indexOf("--split");
+const split =
+  splitIndex >= 0 ? String(process.argv[splitIndex + 1] ?? "all") : "all";
+const outputTagIndex = process.argv.indexOf("--output-tag");
+const outputTag =
+  outputTagIndex >= 0
+    ? String(process.argv[outputTagIndex + 1] ?? "latest")
+    : "latest";
 const scenarios = await readJson(resolve(root, "ai/triage-scenarios.json"));
 
 function buildCases() {
   return scenarios.flatMap((scenario, scenarioIndex) =>
-    Array.from({ length: 5 }, (_, variantIndex) => ({
-      id: `TRIAGE-${String(scenarioIndex + 1).padStart(2, "0")}-${variantIndex + 1}`,
-      log: `${scenario.logs[variantIndex % scenario.logs.length]}\nrun=${variantIndex + 1}; job=marathon-ci-${scenarioIndex + 1}`,
-      expectedCategory: scenario.category,
-      expectedSeverity: scenario.severity,
-      rootCause: scenario.rootCause,
-      fixKeywords: scenario.fixKeywords,
-    })),
+    Array.from({ length: 5 }, (_, variantIndex) => {
+      const caseSplit = variantIndex < 3 ? "dev" : "holdout";
+      return {
+        id: `TRIAGE-${String(scenarioIndex + 1).padStart(2, "0")}-${variantIndex + 1}`,
+        log: `${scenario.logs[variantIndex % scenario.logs.length]}\nrun=${variantIndex + 1}; job=marathon-ci-${scenarioIndex + 1}`,
+        expectedCategory: scenario.category,
+        expectedSeverity: scenario.severity,
+        rootCause: scenario.rootCause,
+        fixKeywords: scenario.fixKeywords,
+        split: caseSplit,
+      };
+    }),
   );
+}
+
+function normalizeResult(response) {
+  const category = String(response.category ?? "").trim().toUpperCase();
+  const severity = String(response.severity ?? "").trim().toUpperCase();
+  return {
+    ...response,
+    category,
+    severity,
+    rootCause: String(response.rootCause ?? "").trim(),
+    suggestedFix: String(response.suggestedFix ?? "").trim(),
+    evidence: Array.isArray(response.evidence)
+      ? response.evidence.map(String)
+      : response.evidence
+        ? [String(response.evidence)]
+        : [],
+    confidence: Number(response.confidence),
+  };
 }
 
 async function classifyLive(testCase) {
   const response = await callDeepSeekJson({
     apiKey: process.env.DEEPSEEK_API_KEY,
     system:
-      "You are a CI failure triage analyst. Return JSON with category, rootCause, evidence array, suggestedFix, severity and confidence from 0 to 1. Base conclusions only on supplied logs.",
+      "You are a CI failure triage analyst. Return JSON with category, rootCause, evidence array, suggestedFix, severity and confidence from 0 to 1. Base conclusions only on supplied logs. category must be uppercase. severity must be exactly HIGH, MEDIUM or LOW. Severity policy: HIGH for authentication, authorization, business state, data integrity, network or database lock failures; MEDIUM for validation, UI locator or timeout failures; LOW for flaky or intermittent tests. The suggestedFix must name the concrete action and relevant mechanism.",
     user: JSON.stringify({
       task: "Triage this failed automated test.",
       log: testCase.log,
       allowedCategories: triageRules.map((rule) => rule.category),
+      severityPolicy: {
+        HIGH: [
+          "AUTHENTICATION",
+          "AUTHORIZATION",
+          "BUSINESS_STATE",
+          "DATA_INTEGRITY",
+          "NETWORK",
+          "DATABASE_LOCK",
+        ],
+        MEDIUM: ["VALIDATION", "UI_LOCATOR", "TIMEOUT"],
+        LOW: ["FLAKY"],
+      },
     }),
     model: process.env.DEEPSEEK_MODEL ?? "deepseek-chat",
     baseUrl: process.env.DEEPSEEK_BASE_URL,
@@ -47,7 +90,9 @@ async function classifyLive(testCase) {
   return response;
 }
 
-const cases = buildCases().slice(0, limit);
+const cases = buildCases()
+  .filter((testCase) => split === "all" || testCase.split === split)
+  .slice(0, limit);
 const results = [];
 for (const testCase of cases) {
   const startedAt = performance.now();
@@ -57,7 +102,7 @@ for (const testCase of cases) {
   try {
     result = offline
       ? classifyOffline(testCase.log)
-      : await classifyLive(testCase);
+      : normalizeResult(await classifyLive(testCase));
     validateTriageResult(result);
     jsonValid = true;
   } catch (caught) {
@@ -101,6 +146,7 @@ const ratio = (value) =>
 const summary = {
   generatedAt: new Date().toISOString(),
   mode: offline ? "offline-baseline" : "deepseek",
+  split,
   sampleCount: total,
   dataSource: "synthetic labeled CI failures",
   metrics: {
@@ -122,13 +168,20 @@ const summary = {
   results,
 };
 
-await writeJson(resolve(root, "reports/ai-triage-evaluation.json"), summary);
+await writeJson(
+  resolve(root, `reports/ai-triage-${outputTag}.json`),
+  summary,
+);
+if (!outputTag.startsWith("test-")) {
+  await writeJson(resolve(root, "reports/ai-triage-evaluation.json"), summary);
+}
 await writeText(
-  resolve(root, "reports/ai-triage-evaluation.md"),
+  resolve(root, `reports/ai-triage-${outputTag}.md`),
   [
     "# AI 故障分诊评估",
     "",
     `- 模式：${summary.mode}`,
+    `- 数据划分：${summary.split}`,
     `- 样本：${summary.sampleCount} 条合成故障`,
     `- JSON 合法率：${(summary.metrics.jsonValidRate * 100).toFixed(2)}%`,
     `- 分类准确率：${(summary.metrics.categoryAccuracy * 100).toFixed(2)}%`,
@@ -142,6 +195,13 @@ await writeText(
     "设置 `DEEPSEEK_API_KEY` 并移除 `--offline` 后，可运行真实 DeepSeek 评估；正式简历数据应基于真实 CI 故障日志复核后再使用。",
   ].join("\n"),
 );
+
+if (!outputTag.startsWith("test-")) {
+  await writeText(
+    resolve(root, "reports/ai-triage-evaluation.md"),
+    await readFile(resolve(root, `reports/ai-triage-${outputTag}.md`), "utf8"),
+  );
+}
 
 console.log(`Evaluated ${summary.sampleCount} synthetic failures using ${summary.mode}`);
 console.log(`Category accuracy: ${(summary.metrics.categoryAccuracy * 100).toFixed(2)}%`);

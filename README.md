@@ -47,6 +47,24 @@ npm run test:e2e
 
 测试覆盖普通用户登录、收藏、报名、缴费、评价、搜索筛选，以及管理员登录、赛事创建和评价审核。
 
+稳定性验收：
+
+```powershell
+npx playwright test --repeat-each=3
+```
+
+当前 14 个场景连续执行 3 轮，共 42 次，失败和 Flaky 均为 0。
+
+接口性能与安全测试：
+
+```powershell
+npm run perf:baseline
+npm run test:security
+npm run test:concurrency
+```
+
+最新质量数据见 `reports/quality-summary.md`。
+
 微信小程序冒烟测试需要先登录微信开发者工具，并保持 API 服务运行：
 
 ```powershell
@@ -80,7 +98,9 @@ npm run ai:generate
 npm run ai:evaluate
 ```
 
-接口规范位于 `docs/openapi.json`。AI 生成与故障分诊报告分别写入 `reports/ai-test-cases.md` 和 `reports/ai-triage-evaluation.md`。离线基线的指标只用于验证工具链，不作为真实模型效果或简历业绩。
+接口规范位于 `docs/openapi.json`。AI 生成与故障分诊报告分别写入 `reports/ai-test-cases.md` 和 `reports/ai-triage-evaluation.md`。
+
+已完成一次真实 DeepSeek 留出集评估：生成 38 条结构化用例并覆盖全部 10 项需求；20 条合成故障样本的 JSON 合法率、分类准确率、严重级别准确率和修复建议命中率均为 100%，平均响应 1658.83 ms。样本属于合成标签数据，不代表生产事故分布。
 
 ## 目录
 
@@ -108,4 +128,4 @@ tests/
 1. 完善收藏管理、资料编辑、我的评价和证书 PDF 下载。
 2. 扩充 Playwright 管理端与小程序端到端场景。
 3. 接入 CI、性能基线与安全测试。
-4. 建立 AI 测试用例生成和失败分诊评估集。
+4. 使用真实 CI 故障日志扩充 AI 评估集并加入人工复核。

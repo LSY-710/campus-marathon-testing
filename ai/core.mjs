@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { fetch as undiciFetch, ProxyAgent } from "undici";
 
 export async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
@@ -113,8 +114,10 @@ export async function callDeepSeekJson({
   }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const proxyUrl = process.env.HTTPS_PROXY ?? process.env.HTTP_PROXY;
+  const dispatcher = proxyUrl ? new ProxyAgent(proxyUrl) : undefined;
   try {
-    const response = await fetch(`${baseUrl.replace(/\/$/, "")}/chat/completions`, {
+    const response = await undiciFetch(`${baseUrl.replace(/\/$/, "")}/chat/completions`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -130,6 +133,7 @@ export async function callDeepSeekJson({
         ],
       }),
       signal: controller.signal,
+      dispatcher,
     });
     if (!response.ok) {
       throw new Error(
@@ -141,5 +145,6 @@ export async function callDeepSeekJson({
     return parseJsonResponse(content);
   } finally {
     clearTimeout(timer);
+    if (dispatcher) await dispatcher.close();
   }
 }

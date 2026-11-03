@@ -1,0 +1,439 @@
+{
+  "generatedAt": "2026-11-03T11:07:42.498Z",
+  "mode": "deepseek",
+  "split": "holdout",
+  "sampleCount": 20,
+  "dataSource": "synthetic labeled CI failures",
+  "metrics": {
+    "jsonValidRate": 1,
+    "categoryAccuracy": 1,
+    "severityAccuracy": 1,
+    "fixHitRate": 1,
+    "averageLatencyMs": 1658.83
+  },
+  "results": [
+    {
+      "caseId": "TRIAGE-01-4",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1949.37,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "The test's request to GET /api/me/registrations was rejected with HTTP 401 UNAUTHORIZED because no valid authentication credentials/session were presented, so the endpoint required authentication that the test did not supply.",
+        "evidence": [
+          "GET /api/me/registrations -> 401 {code: UNAUTHORIZED, message: Authentication required}",
+          "run=4; job=marathon-ci-1"
+        ],
+        "suggestedFix": "Ensure the test authenticates before calling the endpoint: obtain a valid token/session via the login/auth fixture and attach it (e.g., Authorization header or session cookie) to the GET /api/me/registrations request, and verify the auth setup step runs and succeeds in the marathon-ci-1 job.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-01-5",
+      "expectedCategory": "AUTHENTICATION",
+      "actualCategory": "AUTHENTICATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1326.39,
+      "result": {
+        "category": "AUTHENTICATION",
+        "rootCause": "The MiniProgram request was rejected because the Authorization bearer token had expired, causing the automated test to fail.",
+        "evidence": [
+          "MiniProgram request rejected: Authorization bearer token has expired",
+          "run=5; job=marathon-ci-1"
+        ],
+        "suggestedFix": "Refresh or re-acquire the bearer token before the MiniProgram request, and configure the test's authentication/token-refresh mechanism to obtain a valid token prior to execution.",
+        "severity": "HIGH",
+        "confidence": 0.95
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-4",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1843.22,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "The test's credentials lack the admin role required by GET /api/admin/dashboard, so the server returned 403 FORBIDDEN with 'Insufficient permissions'.",
+        "evidence": [
+          "GET /api/admin/dashboard -> 403 {code: FORBIDDEN, message: Insufficient permissions}",
+          "run=4; job=marathon-ci-2"
+        ],
+        "suggestedFix": "Grant the test account the admin role/permission used by the dashboard endpoint (or authenticate the test with an admin-scoped token) in the CI test fixture setup, and assert the expected role before calling the endpoint.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-02-5",
+      "expectedCategory": "AUTHORIZATION",
+      "actualCategory": "AUTHORIZATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1888.48,
+      "result": {
+        "category": "AUTHORIZATION",
+        "rootCause": "A normal user token was used to call the race/event management endpoint, and the response failed role validation, indicating the endpoint's role/permission check rejected a token lacking the required role.",
+        "evidence": [
+          "普通用户令牌请求赛事管理接口，响应角色校验失败",
+          "run=5; job=marathon-ci-2"
+        ],
+        "suggestedFix": "Confirm the expected role for the race management endpoint and either use a token with the required role in the test or correct the endpoint's role-check configuration; verify the authorization rule (role/permission mapping) applied to the management API.",
+        "severity": "HIGH",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-4",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1724.78,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "The login request was rejected with HTTP 400 VALIDATION_ERROR because the username field was missing from the request payload, so the API never reached authentication.",
+        "evidence": [
+          "POST /api/auth/login -> 400 {code: VALIDATION_ERROR, message: username is required}",
+          "run=4; job=marathon-ci-3"
+        ],
+        "suggestedFix": "Fix the test's login request construction so the username parameter is always populated (e.g., ensure the username field is set in the request body/params before calling POST /api/auth/login), and add an assertion on the request payload to catch missing credentials before submission.",
+        "severity": "MEDIUM",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-03-5",
+      "expectedCategory": "VALIDATION",
+      "actualCategory": "VALIDATION",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1493.7,
+      "result": {
+        "category": "VALIDATION",
+        "rootCause": "The API test submitted a request with an empty string for the password field, causing the API validation to reject the request and the test to fail.",
+        "evidence": [
+          "API test failed because password field was an empty string",
+          "run=5; job=marathon-ci-3"
+        ],
+        "suggestedFix": "Ensure the test supplies a non-empty password value before invoking the API, e.g. by setting the password field in the test fixture/request payload builder and asserting it is populated prior to the call.",
+        "severity": "MEDIUM",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-4",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1852.09,
+      "result": {
+        "type": "json_object",
+        "category": "BUSINESS_STATE",
+        "rootCause": "The payment request for registration reg-1 was rejected with HTTP 409 INVALID_REGISTRATION_STATE, meaning the registration was not in a state that permits payment (e.g., already paid, cancelled, or not yet confirmed).",
+        "evidence": [
+          "POST /api/registrations/reg-1/pay -> 409 INVALID_REGISTRATION_STATE",
+          "run=4; job=marathon-ci-4"
+        ],
+        "suggestedFix": "Ensure the test sets up or transitions registration reg-1 into a payable state before calling the pay endpoint, and assert the expected state via the registration API; if the 409 is legitimate, update the test to expect it for the invalid-state scenario.",
+        "severity": "HIGH",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-04-5",
+      "expectedCategory": "BUSINESS_STATE",
+      "actualCategory": "BUSINESS_STATE",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1542.31,
+      "result": {
+        "category": "BUSINESS_STATE",
+        "rootCause": "The test attempted to register an event that was already registered, and the API correctly rejected the duplicate with HTTP 409 ALREADY_REGISTERED, so the test's expectation did not match the enforced business rule.",
+        "evidence": [
+          "Duplicate event registration returned 409 ALREADY_REGISTERED",
+          "run=5; job=marathon-ci-4"
+        ],
+        "suggestedFix": "Make the test idempotent by resetting or cleaning up prior event registrations before the run (e.g., delete existing registration in setup/teardown), or assert the 409 ALREADY_REGISTERED response as the expected outcome for the duplicate-registration scenario.",
+        "severity": "HIGH",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-4",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1853.22,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "Inserting a certificate violated the UNIQUE constraint on (certificates.user_id, certificates.event_id), meaning a certificate for that user/event pair already exists; the test attempted a duplicate insert instead of handling the existing record.",
+        "evidence": [
+          "SQLITE_CONSTRAINT: UNIQUE constraint failed: certificates.user_id, certificates.event_id",
+          "run=4; job=marathon-ci-5"
+        ],
+        "suggestedFix": "Make the certificate creation idempotent: before inserting, query for an existing certificate by user_id and event_id (or use INSERT ... ON CONFLICT DO NOTHING / upsert) so the test does not attempt a duplicate row; alternatively ensure test setup cleans up prior certificates for that user/event.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-05-5",
+      "expectedCategory": "DATA_INTEGRITY",
+      "actualCategory": "DATA_INTEGRITY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1633.87,
+      "result": {
+        "category": "DATA_INTEGRITY",
+        "rootCause": "Deleting an event that still has related registration records violates a foreign key constraint, so the delete operation fails.",
+        "evidence": [
+          "Foreign key constraint failed while deleting an event with related registrations",
+          "run=5; job=marathon-ci-5"
+        ],
+        "suggestedFix": "Delete or cascade the related registration records before deleting the event, or configure the foreign key with ON DELETE CASCADE, and update the test to clean up dependent registrations first.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-4",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1630.98,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "The test's HTTP request to the local backend at 127.0.0.1:3000 was refused because no service was listening on that port, indicating the backend server was not running or not reachable during the test run.",
+        "evidence": [
+          "wx.request fail: connect ECONNREFUSED 127.0.0.1:3000",
+          "run=4; job=marathon-ci-6"
+        ],
+        "suggestedFix": "Ensure the backend service is started and listening on 127.0.0.1:3000 before the test executes, e.g. add a CI setup step or wait-for-port health check in the marathon-ci-6 job so the server is available prior to running wx.request.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-06-5",
+      "expectedCategory": "NETWORK",
+      "actualCategory": "NETWORK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1439.98,
+      "result": {
+        "category": "NETWORK",
+        "rootCause": "The page's fetch call failed because the API service was unavailable, indicating a network/service availability failure rather than a test logic issue.",
+        "evidence": [
+          "Playwright page error: Failed to fetch because API service is unavailable",
+          "run=5; job=marathon-ci-6"
+        ],
+        "suggestedFix": "Verify the API service is running and reachable from the CI runner; add a health-check/readiness gate (e.g., poll the API health endpoint) before starting the Playwright run, and retry the fetch with backoff in the test setup.",
+        "severity": "HIGH",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-4",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1346.94,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "SQLite database was locked during a write operation for registration, causing the write to fail.",
+        "evidence": [
+          "SqliteError: database is locked while writing registration",
+          "run=4; job=marathon-ci-7"
+        ],
+        "suggestedFix": "Enable SQLite WAL mode and set a busy_timeout on the connection so concurrent writers wait and retry instead of failing immediately; also serialize registration writes or reduce concurrent access to the database.",
+        "severity": "HIGH",
+        "confidence": 0.95
+      }
+    },
+    {
+      "caseId": "TRIAGE-07-5",
+      "expectedCategory": "DATABASE_LOCK",
+      "actualCategory": "DATABASE_LOCK",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1610.13,
+      "result": {
+        "category": "DATABASE_LOCK",
+        "rootCause": "SQLite database returned SQLITE_BUSY during certificate issuance, indicating the write transaction could not acquire the database lock because another connection held it.",
+        "evidence": [
+          "Transaction busy: SQLITE_BUSY on certificate issuance",
+          "run=5; job=marathon-ci-7"
+        ],
+        "suggestedFix": "Enable SQLite WAL journal mode and set a busy_timeout (e.g., PRAGMA busy_timeout) on the connection so certificate issuance retries lock acquisition instead of failing immediately; also serialize concurrent writers in the CI job.",
+        "severity": "HIGH",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-4",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1938.98,
+      "result": {
+        "type": "json_object",
+        "category": "UI_LOCATOR",
+        "rootCause": "The test timed out waiting for a button with accessible role 'button' and name '保存' (Save) to become clickable; the locator did not resolve, indicating the element was missing, mislabeled, or not rendered in time.",
+        "evidence": [
+          "locator.click: Timeout exceeded waiting for getByRole(button, name: 保存)",
+          "run=4; job=marathon-ci-8"
+        ],
+        "suggestedFix": "Verify the Save button's accessible name and role in the DOM; if the label differs or is localized, update the getByRole locator (or add a stable data-testid) and ensure the button is rendered/enabled before clicking, using an explicit wait on the locator.",
+        "severity": "MEDIUM",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-08-5",
+      "expectedCategory": "UI_LOCATOR",
+      "actualCategory": "UI_LOCATOR",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1534.33,
+      "result": {
+        "category": "UI_LOCATOR",
+        "rootCause": "The test could not find the element matching selector #submit-button, indicating the locator does not match any element in the rendered page at the time of the query.",
+        "evidence": [
+          "Element not found by selector #submit-button",
+          "run=5; job=marathon-ci-8"
+        ],
+        "suggestedFix": "Verify the #submit-button selector against the current DOM and update the page object locator to a stable attribute (e.g., data-testid); if the element renders asynchronously, add an explicit wait for its presence before interacting.",
+        "severity": "MEDIUM",
+        "confidence": 0.85
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-4",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1423.42,
+      "result": {
+        "type": "json_object",
+        "category": "TIMEOUT",
+        "rootCause": "The test exceeded its 45000ms timeout while waiting for a response, indicating the awaited response never arrived within the allotted window.",
+        "evidence": [
+          "Test timeout of 45000ms exceeded while waiting for response",
+          "run=4; job=marathon-ci-9"
+        ],
+        "suggestedFix": "Increase the response wait timeout or add explicit wait/retry logic for the awaited response in the test, and verify the endpoint or service under test responds within the configured window.",
+        "severity": "MEDIUM",
+        "confidence": 0.6
+      }
+    },
+    {
+      "caseId": "TRIAGE-09-5",
+      "expectedCategory": "TIMEOUT",
+      "actualCategory": "TIMEOUT",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1678.08,
+      "result": {
+        "category": "TIMEOUT",
+        "rootCause": "The request did not complete within the 30000ms limit, indicating a timeout rather than an authentication, authorization, or data integrity failure.",
+        "evidence": [
+          "Request exceeded 30000ms duration without completion",
+          "run=5; job=marathon-ci-9"
+        ],
+        "suggestedFix": "Increase the request timeout threshold or investigate the slow endpoint; add explicit timeout handling and retry logic in the test client to distinguish genuine slowness from transient delays.",
+        "severity": "MEDIUM",
+        "confidence": 0.7
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-4",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 1440,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "The test failed on its first attempt but passed on retry, indicating non-deterministic behavior rather than a genuine product defect.",
+        "evidence": [
+          "Test failed on first attempt and passed on retry",
+          "run=4; job=marathon-ci-10"
+        ],
+        "suggestedFix": "Mark the test as flaky and investigate sources of non-determinism (e.g., timing, shared state, test ordering); add retry/await stabilization or isolate test data so the first attempt is deterministic.",
+        "severity": "LOW",
+        "confidence": 0.9
+      }
+    },
+    {
+      "caseId": "TRIAGE-10-5",
+      "expectedCategory": "FLAKY",
+      "actualCategory": "FLAKY",
+      "categoryCorrect": true,
+      "severityCorrect": true,
+      "fixHit": true,
+      "jsonValid": true,
+      "latencyMs": 2026.26,
+      "result": {
+        "category": "FLAKY",
+        "rootCause": "The test is non-deterministic under parallel execution: it expects a count of 0 but observes 1 only when run in parallel (run=5, job=marathon-ci-10), indicating shared state or timing interference between concurrent tests rather than a product defect.",
+        "evidence": [
+          "Flaky test detected: expected 0 but received 1 only in parallel run",
+          "run=5; job=marathon-ci-10"
+        ],
+        "suggestedFix": "Isolate the test from parallel interference by giving it dedicated fixtures or unique data per worker (e.g., per-worker namespaces/IDs) and synchronizing or resetting shared state in setup/teardown so the expected count of 0 is deterministic under parallel execution.",
+        "severity": "LOW",
+        "confidence": 0.8
+      }
+    }
+  ]
+}

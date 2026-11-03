@@ -1,512 +1,490 @@
 {
-  "generatedAt": "2026-11-03T07:46:15.932Z",
-  "mode": "offline-baseline",
-  "totalCases": 30,
+  "generatedAt": "2026-11-03T11:11:24.821Z",
+  "mode": "deepseek",
+  "totalCases": 38,
   "coverage": {
     "requirements": 10,
     "coveredRequirements": 10,
     "coverageRate": 1
   },
   "byType": {
-    "positive": 10,
-    "boundary": 10,
-    "negative": 10
+    "positive": 16,
+    "boundary": 6,
+    "negative": 16
   },
   "byPriority": {
-    "P0": 15,
-    "P1": 15,
+    "P0": 24,
+    "P1": 14,
     "P2": 0
   },
   "cases": [
     {
-      "id": "REQ-EVENT-DISCOVERY-POS",
+      "id": "TC-001",
       "requirementId": "REQ-EVENT-DISCOVERY",
-      "title": "赛事发现与状态排序：正常主流程",
+      "title": "赛事列表仅返回已发布赛事",
+      "type": "positive",
+      "priority": "P0",
+      "preconditions": "数据库中存在已发布赛事与草稿/未发布赛事各至少一条",
+      "steps": [
+        "以任意用户身份调用 GET /api/events",
+        "检查返回列表中每个赛事的发布状态"
+      ],
+      "expected": "HTTP 200；返回结果仅包含已发布赛事，草稿或未发布赛事不出现"
+    },
+    {
+      "id": "TC-002",
+      "requirementId": "REQ-EVENT-DISCOVERY",
+      "title": "报名中赛事优先排序",
       "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "存在报名中赛事与已结束/未开始赛事各至少一条",
       "steps": [
         "调用 GET /api/events",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "检查返回顺序"
       ],
-      "expected": "仅返回已发布赛事"
+      "expected": "HTTP 200；报名中赛事排在列表前面，其余赛事按约定顺序排列"
     },
     {
-      "id": "REQ-EVENT-DISCOVERY-BND",
+      "id": "TC-003",
       "requirementId": "REQ-EVENT-DISCOVERY",
-      "title": "赛事发现与状态排序：边界条件",
-      "type": "boundary",
+      "title": "关键词匹配标题、地点或介绍",
+      "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "存在标题、地点、介绍分别包含关键词“马拉松”的已发布赛事",
       "steps": [
-        "调用 GET /api/events",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "调用 GET /api/events 并传入关键词参数“马拉松”",
+        "检查返回结果"
       ],
-      "expected": "报名中赛事优先展示"
+      "expected": "HTTP 200；返回标题、地点或介绍任一匹配的赛事"
     },
     {
-      "id": "REQ-EVENT-DISCOVERY-NEG",
+      "id": "TC-004",
       "requirementId": "REQ-EVENT-DISCOVERY",
-      "title": "赛事发现与状态排序：异常与权限场景",
-      "type": "negative",
+      "title": "空搜索结果返回正常空列表",
+      "type": "boundary",
       "priority": "P1",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "无赛事包含关键词“zzz-no-match”",
       "steps": [
-        "调用 GET /api/events",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "调用 GET /api/events 并传入关键词“zzz-no-match”"
       ],
-      "expected": "关键词可匹配标题、地点或介绍"
+      "expected": "HTTP 200；返回空数组，不返回错误"
     },
     {
-      "id": "REQ-REGISTRATION-WINDOW-POS",
+      "id": "TC-005",
       "requirementId": "REQ-REGISTRATION-WINDOW",
-      "title": "报名时间窗口与名额：正常主流程",
+      "title": "报名窗口内成功创建报名",
       "type": "positive",
       "priority": "P0",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "存在报名中且名额未满的付费赛事；用户已登录",
       "steps": [
         "调用 POST /api/events/{eventId}/registrations",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "检查响应与报名记录状态"
       ],
-      "expected": "报名窗口内允许创建报名"
+      "expected": "HTTP 201；创建报名成功，状态为待缴费"
     },
     {
-      "id": "REQ-REGISTRATION-WINDOW-BND",
+      "id": "TC-006",
       "requirementId": "REQ-REGISTRATION-WINDOW",
-      "title": "报名时间窗口与名额：边界条件",
+      "title": "报名开始时刻边界允许报名",
       "type": "boundary",
       "priority": "P0",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
+      "preconditions": "赛事报名开始时间等于服务器当前时间；名额未满；用户已登录",
+      "steps": [
+        "在服务器时间等于报名开始时刻调用 POST /api/events/{eventId}/registrations"
       ],
+      "expected": "HTTP 201；报名创建成功"
+    },
+    {
+      "id": "TC-007",
+      "requirementId": "REQ-REGISTRATION-WINDOW",
+      "title": "报名截止时刻边界拒绝报名",
+      "type": "boundary",
+      "priority": "P0",
+      "preconditions": "赛事报名截止时间等于服务器当前时间；用户已登录",
+      "steps": [
+        "在服务器时间等于报名截止时刻调用 POST /api/events/{eventId}/registrations"
+      ],
+      "expected": "返回业务冲突错误（如 409），不创建报名"
+    },
+    {
+      "id": "TC-008",
+      "requirementId": "REQ-REGISTRATION-WINDOW",
+      "title": "报名窗口外拒绝报名",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "赛事报名尚未开始或已截止；用户已登录",
+      "steps": [
+        "调用 POST /api/events/{eventId}/registrations"
+      ],
+      "expected": "返回业务冲突错误（如 409），不创建报名"
+    },
+    {
+      "id": "TC-009",
+      "requirementId": "REQ-REGISTRATION-WINDOW",
+      "title": "名额已满拒绝报名",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "赛事名额已满；用户已登录",
+      "steps": [
+        "调用 POST /api/events/{eventId}/registrations"
+      ],
+      "expected": "返回业务冲突错误（如 409），不创建报名"
+    },
+    {
+      "id": "TC-010",
+      "requirementId": "REQ-REGISTRATION-WINDOW",
+      "title": "同一用户重复报名被拒绝",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "用户已成功报名该赛事",
+      "steps": [
+        "再次调用 POST /api/events/{eventId}/registrations"
+      ],
+      "expected": "返回业务冲突错误（如 409），不产生重复报名记录"
+    },
+    {
+      "id": "TC-011",
+      "requirementId": "REQ-PAYMENT-STATE",
+      "title": "待缴费报名支付后变为已报名",
+      "type": "positive",
+      "priority": "P0",
+      "preconditions": "存在当前用户待缴费报名记录",
+      "steps": [
+        "调用 POST /api/registrations/{registrationId}/pay",
+        "查询报名状态"
+      ],
+      "expected": "HTTP 200；报名状态变为已报名"
+    },
+    {
+      "id": "TC-012",
+      "requirementId": "REQ-PAYMENT-STATE",
+      "title": "非本人支付被拒绝",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "存在属于其他用户的待缴费报名记录",
+      "steps": [
+        "以当前用户身份调用 POST /api/registrations/{registrationId}/pay"
+      ],
+      "expected": "返回 403 或 404；报名状态不变"
+    },
+    {
+      "id": "TC-013",
+      "requirementId": "REQ-PAYMENT-STATE",
+      "title": "已报名状态重复支付被拒绝",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "存在当前用户已报名（已支付）记录",
+      "steps": [
+        "调用 POST /api/registrations/{registrationId}/pay"
+      ],
+      "expected": "返回业务冲突错误（如 409）；状态不变"
+    },
+    {
+      "id": "TC-014",
+      "requirementId": "REQ-PAYMENT-STATE",
+      "title": "免费赛事创建后直接成为已报名",
+      "type": "positive",
+      "priority": "P0",
+      "preconditions": "存在报名中免费赛事；用户已登录",
       "steps": [
         "调用 POST /api/events/{eventId}/registrations",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "查询报名状态"
       ],
-      "expected": "窗口开始和结束边界遵循服务器时间"
+      "expected": "HTTP 201；报名状态直接为已报名，无需支付"
     },
     {
-      "id": "REQ-REGISTRATION-WINDOW-NEG",
-      "requirementId": "REQ-REGISTRATION-WINDOW",
-      "title": "报名时间窗口与名额：异常与权限场景",
-      "type": "negative",
-      "priority": "P0",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
-      "steps": [
-        "调用 POST /api/events/{eventId}/registrations",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
-      ],
-      "expected": "窗口外或名额已满时返回业务冲突错误"
-    },
-    {
-      "id": "REQ-PAYMENT-STATE-POS",
-      "requirementId": "REQ-PAYMENT-STATE",
-      "title": "缴费状态与所有权：正常主流程",
-      "type": "positive",
-      "priority": "P0",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
-      "steps": [
-        "调用 POST /api/registrations/{registrationId}/pay",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
-      ],
-      "expected": "待缴费记录支付后变为已报名"
-    },
-    {
-      "id": "REQ-PAYMENT-STATE-BND",
-      "requirementId": "REQ-PAYMENT-STATE",
-      "title": "缴费状态与所有权：边界条件",
-      "type": "boundary",
-      "priority": "P0",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
-      "steps": [
-        "调用 POST /api/registrations/{registrationId}/pay",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
-      ],
-      "expected": "只有报名本人可以支付"
-    },
-    {
-      "id": "REQ-PAYMENT-STATE-NEG",
-      "requirementId": "REQ-PAYMENT-STATE",
-      "title": "缴费状态与所有权：异常与权限场景",
-      "type": "negative",
-      "priority": "P0",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
-      "steps": [
-        "调用 POST /api/registrations/{registrationId}/pay",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
-      ],
-      "expected": "非待缴费状态不能重复支付"
-    },
-    {
-      "id": "REQ-REVIEW-MODERATION-POS",
+      "id": "TC-015",
       "requirementId": "REQ-REVIEW-MODERATION",
-      "title": "评价审核与可见性：正常主流程",
+      "title": "已报名用户提交评价成功且待审核",
       "type": "positive",
       "priority": "P0",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "用户已报名该赛事",
       "steps": [
-        "调用 POST /api/events/{eventId}/reviews",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "调用 POST /api/events/{eventId}/reviews 提交评价",
+        "查询评价状态与公开列表"
       ],
-      "expected": "已报名用户可以提交评价"
+      "expected": "HTTP 201；评价状态为待审核，且不出现在公开评价列表"
     },
     {
-      "id": "REQ-REVIEW-MODERATION-BND",
+      "id": "TC-016",
       "requirementId": "REQ-REVIEW-MODERATION",
-      "title": "评价审核与可见性：边界条件",
-      "type": "boundary",
+      "title": "未报名用户提交评价被拒绝",
+      "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "用户未报名该赛事",
       "steps": [
-        "调用 POST /api/events/{eventId}/reviews",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "调用 POST /api/events/{eventId}/reviews"
       ],
-      "expected": "新评价状态为待审核且不公开"
+      "expected": "返回 403 或业务错误；不创建评价"
     },
     {
-      "id": "REQ-REVIEW-MODERATION-NEG",
+      "id": "TC-017",
       "requirementId": "REQ-REVIEW-MODERATION",
-      "title": "评价审核与可见性：异常与权限场景",
-      "type": "negative",
+      "title": "管理员审核通过后评价公开",
+      "type": "positive",
       "priority": "P0",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "存在待审核评价；管理员已登录",
       "steps": [
-        "调用 POST /api/events/{eventId}/reviews",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "调用 POST /api/admin/reviews/{reviewId} 审核通过",
+        "查询公开评价列表"
       ],
-      "expected": "管理员通过后评价公开显示"
+      "expected": "审核成功；评价状态变为已通过并公开显示"
     },
     {
-      "id": "REQ-RESULT-CERTIFICATE-POS",
+      "id": "TC-018",
+      "requirementId": "REQ-REVIEW-MODERATION",
+      "title": "用户删除他人评价被拒绝",
+      "type": "negative",
+      "priority": "P0",
+      "preconditions": "存在属于其他用户的评价",
+      "steps": [
+        "以当前用户身份调用 DELETE /api/reviews/{reviewId}"
+      ],
+      "expected": "返回 403 或 404；评价未被删除"
+    },
+    {
+      "id": "TC-019",
       "requirementId": "REQ-RESULT-CERTIFICATE",
-      "title": "成绩与证书状态约束：正常主流程",
+      "title": "已缴费报名可录入成绩并变为已完赛",
       "type": "positive",
       "priority": "P0",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "存在已缴费报名；管理员已登录",
       "steps": [
-        "调用 POST /api/admin/results",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "调用 POST /api/admin/results 录入成绩",
+        "查询报名状态"
       ],
-      "expected": "仅已缴费报名可以录入成绩"
+      "expected": "录入成功；报名状态变为已完赛"
     },
     {
-      "id": "REQ-RESULT-CERTIFICATE-BND",
+      "id": "TC-020",
       "requirementId": "REQ-RESULT-CERTIFICATE",
-      "title": "成绩与证书状态约束：边界条件",
-      "type": "boundary",
+      "title": "未缴费报名录入成绩被拒绝",
+      "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "存在待缴费报名；管理员已登录",
       "steps": [
-        "调用 POST /api/admin/results",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "调用 POST /api/admin/results 为该报名录入成绩"
       ],
-      "expected": "成绩录入后报名变为已完赛"
+      "expected": "返回业务错误（如 409）；不创建成绩"
     },
     {
-      "id": "REQ-RESULT-CERTIFICATE-NEG",
+      "id": "TC-021",
       "requirementId": "REQ-RESULT-CERTIFICATE",
-      "title": "成绩与证书状态约束：异常与权限场景",
+      "title": "未完赛报名不能生成证书",
       "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "存在未完成赛事报名；管理员已登录",
       "steps": [
-        "调用 POST /api/admin/results",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "调用 POST /api/admin/certificates 为该报名生成证书"
       ],
-      "expected": "未完赛报名不能生成证书"
+      "expected": "返回业务错误；不生成证书"
     },
     {
-      "id": "REQ-RBAC-POS",
+      "id": "TC-022",
+      "requirementId": "REQ-RESULT-CERTIFICATE",
+      "title": "未颁发证书不出现在用户证书列表",
+      "type": "boundary",
+      "priority": "P0",
+      "preconditions": "存在已生成但未颁发的证书；用户已登录",
+      "steps": [
+        "调用 GET /api/me/certificates"
+      ],
+      "expected": "HTTP 200；列表中不包含未颁发证书"
+    },
+    {
+      "id": "TC-023",
+      "requirementId": "REQ-RESULT-CERTIFICATE",
+      "title": "颁发后证书出现在用户证书列表",
+      "type": "positive",
+      "priority": "P0",
+      "preconditions": "存在已生成未颁发证书；管理员已登录",
+      "steps": [
+        "调用 POST /api/admin/certificates/{certificateId}/issue",
+        "以证书所属用户调用 GET /api/me/certificates"
+      ],
+      "expected": "颁发成功；用户证书列表包含该证书"
+    },
+    {
+      "id": "TC-024",
       "requirementId": "REQ-RBAC",
-      "title": "管理员权限隔离：正常主流程",
-      "type": "positive",
+      "title": "未登录访问管理接口返回 401",
+      "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "无有效令牌",
       "steps": [
-        "调用 GET /api/admin/dashboard",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "不带 Authorization 调用 GET /api/admin/dashboard"
       ],
-      "expected": "未登录用户返回 401"
+      "expected": "返回 401"
     },
     {
-      "id": "REQ-RBAC-BND",
+      "id": "TC-025",
       "requirementId": "REQ-RBAC",
-      "title": "管理员权限隔离：边界条件",
-      "type": "boundary",
+      "title": "普通用户访问管理接口返回 403",
+      "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "普通用户已登录",
       "steps": [
-        "调用 GET /api/admin/dashboard",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "以普通用户令牌调用 GET /api/admin/dashboard"
       ],
-      "expected": "普通用户访问管理接口返回 403"
+      "expected": "返回 403"
     },
     {
-      "id": "REQ-RBAC-NEG",
+      "id": "TC-026",
       "requirementId": "REQ-RBAC",
-      "title": "管理员权限隔离：异常与权限场景",
+      "title": "管理员令牌访问管理接口成功",
+      "type": "positive",
+      "priority": "P0",
+      "preconditions": "管理员已登录",
+      "steps": [
+        "以管理员令牌调用 GET /api/admin/dashboard"
+      ],
+      "expected": "HTTP 200；返回管理面板数据"
+    },
+    {
+      "id": "TC-027",
+      "requirementId": "REQ-RBAC",
+      "title": "客户端提交角色字段不能覆盖服务器角色",
       "type": "negative",
       "priority": "P0",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "普通用户已登录",
       "steps": [
-        "调用 GET /api/admin/dashboard",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "以普通用户令牌调用 GET /api/admin/dashboard，并在请求体或参数中提交 role=admin"
       ],
-      "expected": "有效管理员令牌可以访问管理接口"
+      "expected": "返回 403；服务器角色不被覆盖"
     },
     {
-      "id": "REQ-INPUT-VALIDATION-POS",
+      "id": "TC-028",
       "requirementId": "REQ-INPUT-VALIDATION",
-      "title": "输入参数校验：正常主流程",
-      "type": "positive",
+      "title": "登录缺少必填字段返回 400",
+      "type": "negative",
       "priority": "P1",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "无",
       "steps": [
-        "调用 POST /api/auth/login",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "调用 POST /api/auth/login，请求体缺少密码字段"
       ],
-      "expected": "缺少必填字段返回 400"
+      "expected": "返回 400；错误信息不包含内部堆栈"
     },
     {
-      "id": "REQ-INPUT-VALIDATION-BND",
+      "id": "TC-029",
       "requirementId": "REQ-INPUT-VALIDATION",
-      "title": "输入参数校验：边界条件",
+      "title": "登录超长或非法类型输入被拒绝",
       "type": "boundary",
       "priority": "P1",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "无",
       "steps": [
-        "调用 POST /api/auth/login",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "调用 POST /api/auth/login，用户名传入超长字符串或密码传入非字符串类型"
       ],
-      "expected": "超长或非法类型输入被拒绝"
+      "expected": "返回 400；请求被拒绝"
     },
     {
-      "id": "REQ-INPUT-VALIDATION-NEG",
+      "id": "TC-030",
       "requirementId": "REQ-INPUT-VALIDATION",
-      "title": "输入参数校验：异常与权限场景",
+      "title": "错误凭据返回统一 401 且不泄露信息",
       "type": "negative",
       "priority": "P1",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "存在已知用户",
       "steps": [
-        "调用 POST /api/auth/login",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "调用 POST /api/auth/login，使用错误密码",
+        "检查响应体"
       ],
-      "expected": "错误凭据返回统一的 401 错误"
+      "expected": "返回 401；错误信息统一，不泄露密码或内部堆栈"
     },
     {
-      "id": "REQ-EVENT-DATE-ORDER-POS",
+      "id": "TC-031",
       "requirementId": "REQ-EVENT-DATE-ORDER",
-      "title": "赛事日期顺序：正常主流程",
+      "title": "合法日期顺序创建赛事成功",
       "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "管理员已登录",
       "steps": [
-        "调用 POST /api/admin/events",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "调用 POST /api/admin/events，报名开始<报名截止<比赛开始<比赛结束"
       ],
-      "expected": "报名开始早于报名截止"
+      "expected": "HTTP 201；赛事创建成功"
     },
     {
-      "id": "REQ-EVENT-DATE-ORDER-BND",
+      "id": "TC-032",
       "requirementId": "REQ-EVENT-DATE-ORDER",
-      "title": "赛事日期顺序：边界条件",
-      "type": "boundary",
-      "priority": "P1",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
-      "steps": [
-        "调用 POST /api/admin/events",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
-      ],
-      "expected": "报名截止早于比赛开始"
-    },
-    {
-      "id": "REQ-EVENT-DATE-ORDER-NEG",
-      "requirementId": "REQ-EVENT-DATE-ORDER",
-      "title": "赛事日期顺序：异常与权限场景",
+      "title": "报名截止晚于比赛开始时返回 400",
       "type": "negative",
       "priority": "P1",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "管理员已登录",
       "steps": [
-        "调用 POST /api/admin/events",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "调用 POST /api/admin/events，报名截止时间晚于比赛开始时间"
       ],
-      "expected": "比赛开始早于比赛结束"
+      "expected": "返回 400；赛事未创建"
     },
     {
-      "id": "REQ-WEB-ACCESS-POS",
+      "id": "TC-033",
+      "requirementId": "REQ-EVENT-DATE-ORDER",
+      "title": "报名开始等于报名截止边界被拒绝",
+      "type": "boundary",
+      "priority": "P1",
+      "preconditions": "管理员已登录",
+      "steps": [
+        "调用 POST /api/admin/events，报名开始时间等于报名截止时间"
+      ],
+      "expected": "返回 400；赛事未创建"
+    },
+    {
+      "id": "TC-034",
       "requirementId": "REQ-WEB-ACCESS",
-      "title": "用户网页入口：正常主流程",
+      "title": "根路径跳转到用户端",
       "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "无",
       "steps": [
-        "调用 GET /user/",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "调用 GET /user/"
       ],
-      "expected": "根路径跳转到用户端"
+      "expected": "返回 HTML 页面或重定向到用户端入口"
     },
     {
-      "id": "REQ-WEB-ACCESS-BND",
+      "id": "TC-035",
       "requirementId": "REQ-WEB-ACCESS",
-      "title": "用户网页入口：边界条件",
-      "type": "boundary",
-      "priority": "P1",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
-      "steps": [
-        "调用 GET /user/",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
-      ],
-      "expected": "用户页面返回 HTML"
-    },
-    {
-      "id": "REQ-WEB-ACCESS-NEG",
-      "requirementId": "REQ-WEB-ACCESS",
-      "title": "用户网页入口：异常与权限场景",
-      "type": "negative",
-      "priority": "P1",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
-      "steps": [
-        "调用 GET /user/",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
-      ],
-      "expected": "未登录用户可以浏览公开赛事"
-    },
-    {
-      "id": "REQ-ADMIN-CRUD-POS",
-      "requirementId": "REQ-ADMIN-CRUD",
-      "title": "管理员赛事维护：正常主流程",
+      "title": "未登录用户可浏览公开赛事",
       "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "服务正常启动",
-        "测试数据满足正常业务条件"
-      ],
+      "preconditions": "无登录会话",
       "steps": [
-        "调用 PATCH /api/admin/events/{eventId}",
-        "使用满足前置条件的合法数据",
-        "检查响应状态与业务数据"
+        "未登录调用 GET /api/events"
       ],
-      "expected": "管理员可以创建赛事"
+      "expected": "HTTP 200；返回公开赛事列表"
     },
     {
-      "id": "REQ-ADMIN-CRUD-BND",
+      "id": "TC-036",
       "requirementId": "REQ-ADMIN-CRUD",
-      "title": "管理员赛事维护：边界条件",
-      "type": "boundary",
+      "title": "管理员修改赛事成功",
+      "type": "positive",
       "priority": "P1",
-      "preconditions": [
-        "准备最小合法数据或时间窗口边界数据"
-      ],
+      "preconditions": "存在赛事；管理员已登录",
       "steps": [
-        "调用 PATCH /api/admin/events/{eventId}",
-        "将输入设置为允许范围的边界值",
-        "验证边界行为与服务器时间判定"
+        "调用 PATCH /api/admin/events/{eventId} 修改名称",
+        "查询赛事详情"
       ],
-      "expected": "管理员可以修改赛事"
+      "expected": "HTTP 200；赛事信息已更新"
     },
     {
-      "id": "REQ-ADMIN-CRUD-NEG",
+      "id": "TC-037",
       "requirementId": "REQ-ADMIN-CRUD",
-      "title": "管理员赛事维护：异常与权限场景",
+      "title": "普通用户修改赛事被拒绝",
       "type": "negative",
       "priority": "P1",
-      "preconditions": [
-        "准备非法输入、未授权身份或非法状态数据"
-      ],
+      "preconditions": "普通用户已登录",
       "steps": [
-        "调用 PATCH /api/admin/events/{eventId}",
-        "提交非法数据或使用无权限身份",
-        "确认接口拒绝请求且不产生副作用"
+        "以普通用户令牌调用 PATCH /api/admin/events/{eventId}"
       ],
-      "expected": "管理员可以按名称搜索"
+      "expected": "返回 403；赛事未被修改"
+    },
+    {
+      "id": "TC-038",
+      "requirementId": "REQ-ADMIN-CRUD",
+      "title": "管理员按名称搜索赛事",
+      "type": "positive",
+      "priority": "P1",
+      "preconditions": "存在名称包含关键词的赛事；管理员已登录",
+      "steps": [
+        "调用 GET /api/admin/events 并传入名称关键词"
+      ],
+      "expected": "HTTP 200；返回名称匹配的赛事"
     }
   ]
 }

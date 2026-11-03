@@ -67,11 +67,16 @@ test("model JSON parser accepts fenced JSON and rejects invalid JSON", () => {
 test("offline triage evaluation processes the expected synthetic sample set", () => {
   execFileSync(
     process.execPath,
-    [resolve(root, "ai/evaluate-triage.mjs"), "--offline"],
+    [
+      resolve(root, "ai/evaluate-triage.mjs"),
+      "--offline",
+      "--output-tag",
+      "test-offline",
+    ],
     { cwd: root, stdio: "pipe" },
   );
   const report = JSON.parse(
-    readFileSync(resolve(root, "reports/ai-triage-evaluation.json"), "utf8"),
+    readFileSync(resolve(root, "reports/ai-triage-test-offline.json"), "utf8"),
   );
   assert.equal(report.mode, "offline-baseline");
   assert.equal(report.sampleCount, 50);
